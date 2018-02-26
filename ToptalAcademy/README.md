@@ -7,6 +7,7 @@ react-native run-android
 
 ```
 npm install -g react-devtools
+react-devtools
 ```
 
 Migrate to typescript:
