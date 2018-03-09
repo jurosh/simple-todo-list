@@ -2,5 +2,14 @@
   "editor.formatOnSave": true,
   "[json]": {
     "editor.formatOnSave": false
+  },
+  "files.exclude": {
+    ".idea": true,
+    "ios": true,
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true
   }
 }
