@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './components/App';
+import { Router } from './components/Router';
 
-AppRegistry.registerComponent('ToptalAcademy', () => App);
+AppRegistry.registerComponent('ToptalAcademy', () => Router);
