@@ -6,22 +6,47 @@ import {
   Button,
   Image,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from 'react-native';
+import { login, register } from '../../api';
 import profileImage from './images/todos.png';
 
-export class LoginScreen extends React.Component<{}, { name: string; password: string }> {
-  static navigationOptions = {
-    drawerLabel: 'Login'
-  };
+interface IState {
+  email: string;
+  password: string;
+}
 
+class LoginScreen extends React.Component<{}, IState> {
   state = {
-    name: '',
+    email: '',
     password: ''
   };
 
+  login = () => {
+    const { email, password } = this.state;
+    login(email, password)
+      .then(() => {
+        console.log('Success');
+      })
+      .catch(error => {
+        Alert.alert(error.toString());
+      });
+  };
+
+  register = () => {
+    const { email, password } = this.state;
+    register(email, password)
+      .then(() => {
+        Alert.alert('Success! You can now continue with sign-in');
+      })
+      .catch(error => {
+        Alert.alert(error.toString());
+      });
+  };
+
   render() {
-    const { name, password } = this.state;
+    const { email, password } = this.state;
     return (
       <ScrollView
         style={styles.scroll}
@@ -31,11 +56,11 @@ export class LoginScreen extends React.Component<{}, { name: string; password: s
         <View style={styles.wrap}>
           <Image source={profileImage} />
           <View style={styles.content}>
-            <Text style={styles.label}>Username</Text>
+            <Text style={styles.label}>Email</Text>
             <TextInput
               style={styles.input}
-              onChangeText={text => this.setState({ name: text })}
-              value={name}
+              onChangeText={text => this.setState({ email: text })}
+              value={email}
             />
 
             <Text style={styles.label}>Password</Text>
@@ -47,12 +72,11 @@ export class LoginScreen extends React.Component<{}, { name: string; password: s
             />
 
             <View style={styles.buttonWrap}>
-              <Button
-                title="Login"
-                onPress={() => {
-                  console.log(this.state);
-                }}
-              />
+              <Button title="Login" onPress={this.login} />
+              <View style={styles.registerWrap}>
+                <Text>OR</Text>
+                <Button color="#82B1FF" title="Register" onPress={this.register} />
+              </View>
             </View>
           </View>
         </View>
@@ -82,5 +106,14 @@ const styles = StyleSheet.create({
   buttonWrap: {
     marginTop: 40,
     marginBottom: 200
+  },
+  registerWrap: {
+    alignItems: 'center',
+    margin: 20
+  },
+  register: {
+    color: 'black'
   }
 });
+
+export default LoginScreen;

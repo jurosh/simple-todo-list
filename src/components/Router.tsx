@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
-import { DrawerNavigator, DrawerItems } from 'react-navigation';
-import { LoginScreen } from './login/LoginScreen';
+import { DrawerNavigator, DrawerItems, addNavigationHelpers } from 'react-navigation';
+import LoginScreen from './login/LoginScreen';
+import ListsScreen from './lists/ListsScreen';
 import profileImage from './images/profile-small.png';
+import { logout } from '../api';
 
 class MyHomeScreen extends React.Component<{ navigation: any }> {
   static navigationOptions = {
@@ -39,6 +41,7 @@ const Header = props => (
   <ScrollView>
     <Text>Profile</Text>
     <DrawerItems {...props} />
+    <Button title="Log out" onPress={logout} />
   </ScrollView>
 );
 
@@ -49,10 +52,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export const Router = DrawerNavigator(
+const Router = DrawerNavigator(
   {
-    Login: {
-      screen: LoginScreen
+    Lists: {
+      screen: ListsScreen
     },
     Home: {
       screen: MyHomeScreen
@@ -65,3 +68,5 @@ export const Router = DrawerNavigator(
     contentComponent: Header
   }
 );
+
+export default Router;

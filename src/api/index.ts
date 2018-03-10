@@ -1,52 +1,77 @@
-// import firebase from 'react-native-firebase';
-// import * as firebase from 'firebase';
-// Required for side-effects
-// import 'firebase/firestore';
+import * as firebase from 'firebase';
+import FireAuth from 'react-native-firebase-auth';
+import 'firebase/firestore'; // Required for side-effects
 
 // https://firebase.google.com/docs/firestore/quickstart
-
 var config = {
   apiKey: 'AIzaSyDZD4rj27VoH0Sx5srZfGWVH2_T4PbU5D8',
   authDomain: 'toptalreactnativeacademy.firebaseapp.com',
-  // databaseURL: 'https://toptalreactnativeacademy.firebaseio.com',
-  projectId: 'toptalreactnativeacademy'
-  // storageBucket: 'toptalreactnativeacademy.appspot.com',
-  // messagingSenderId: '1081381779848'
+  databaseURL: 'https://toptalreactnativeacademy.firebaseio.com',
+  projectId: 'toptalreactnativeacademy',
+  storageBucket: 'toptalreactnativeacademy.appspot.com',
+  messagingSenderId: '1081381779848'
 };
-// firebase.initializeApp(config);
 
-// firebase.initializeApp(config);
+let globalFirestoreDb: any | null = null;
+let globalOnLogout = () => {};
+let globalCredential: {
+  apiKey: string;
+  email: string;
+  emailVerified: boolean;
+  photoURL: string | null;
+  uid: string;
+  stsTokenManager: {
+    accessToken: string;
+    apiKey: string;
+    expirationTime: number;
+    refreshToken: string;
+  };
+} | null = null;
 
-// Initialize Cloud Firestore through Firebase
-// const db = firebase.firestore();
+export const getUserEmail = () => (globalCredential ? globalCredential.email : '');
 
-// Listen for authentication state to change.
-// firebase.auth().onAuthStateChanged(user => {
-//   if (user != null) {
-//     console.log("We are authenticated now!");
-//   }
-//   // Do other things
-// });
+export const getUserPhoto = () => (globalCredential ? globalCredential.photoURL : null);
 
-// db
-//   .collection('lists')
-//   .add({
-//     name: 'NewName'
-//   })
-//   .then(function(docRef) {
-//     console.log('Document written with ID: ', docRef.id);
-//   })
-//   .catch(function(error) {
-//     console.error('Error adding document: ', error);
-//   });
+export const login = (email: string, password: string): Promise<void> =>
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then(credential => {
+      if (credential) {
+        globalCredential = credential;
+      } else {
+        console.warn('[Firebase] Issue with credentials');
+      }
+    });
 
-// firebase
-//   .auth()
-//   .signInAnonymouslyAndRetrieveData()
-//   .then(credential => {
-//     if (credential) {
-//       console.log('default app user ->', credential.user.toJSON());
-//     }
-//   });
+export const logout = (): Promise<void> =>
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      console.log('[Firebase] Logged out');
+      // Run callback to notify components
+      globalOnLogout();
+    });
 
-export default () => 0;
+export const register = (email: string, password: string): Promise<void> =>
+  firebase.auth().createUserWithEmailAndPassword(email, password);
+
+export const initializeAndWaitForAuth = (
+  onLogin: () => void,
+  onLogout: () => void
+): void => {
+  console.log('[Firebase] Starting firebase connection...');
+  globalOnLogout = onLogout;
+  firebase.initializeApp(config);
+
+  // Listen for authentication state to change.
+  firebase.auth().onAuthStateChanged(user => {
+    if (user != null) {
+      console.log('[Firebase] We are authenticated now!');
+      onLogin();
+    }
+  });
+
+  globalFirestoreDb = firebase.firestore();
+};

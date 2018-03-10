@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Router } from './src/components/Router';
+import Entry from './src/Entry';
 
-const App = () => <Router />;
+const App = () => <Entry />;
 
 export default App;
