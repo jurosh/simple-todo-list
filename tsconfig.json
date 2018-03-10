@@ -1,24 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es5",
     "module": "es2015",
-    "moduleResolution": "node",
-    "jsx": "react",
-    "outDir": "lib",
-    "rootDir": "src",
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
-    "preserveConstEnums": true,
-    "allowJs": false,
+    "outDir": "build/dist",
     "sourceMap": true,
-    "noImplicitReturns": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true,
-    // FIX because of: error TS2300: Duplicate identifier 'require'
-    "skipLibCheck": false
+    "experimentalDecorators": true,
+    "jsx": "react-native",
+    "lib": ["dom", "es2015", "es2016"],
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "noEmitHelpers": true,
+    "noImplicitAny": false,
+    "importHelpers": true,
+    "strict": true,
+    "noImplicitReturns": true
   },
-  "filesGlob": ["src/**/*.ts", "src/**/*.tsx"],
-  "types": ["react", "react-native", "jest"],
-  "exclude": ["android", "ios", "build", "node_modules", "_backend"],
-  "compileOnSave": false
+  "exclude": ["_backend/**/*"]
 }

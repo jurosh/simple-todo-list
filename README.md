@@ -1,33 +1,6 @@
 # Toptal React Academy
 
-```
-npm install -g react-native-cli
-react-native run-android
-```
-
-```
-npm install -g react-devtools
-react-devtools
-```
-
-Migrate to typescript:
-https://github.com/Microsoft/TypeScript-React-Native-Starter
-
-MS Android emulator:
-https://www.visualstudio.com/vs/msft-android-emulator/
-
-Open also in android studio.
-
-## Resources
-
-Apollo:
-
-* `npm install react-apollo --save`
-
-Firebase:
-
-* https://rnfirebase.io/docs/v3.3.x/installation/initial-setup
-* https://rnfirebase.io/docs/v3.3.x/installation/android
+https://github.com/mathieudutour/create-react-native-app-typescript
 
 # OFFICIAL REQUIREMENTS
 

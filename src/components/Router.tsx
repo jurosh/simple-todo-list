@@ -1,26 +1,14 @@
 import * as React from 'react';
-import {
-  Image,
-  Button,
-  StyleSheet,
-  View,
-  ScrollView,
-  Text
-} from 'react-native';
+import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
 import { DrawerNavigator, DrawerItems } from 'react-navigation';
-import { LoginScreen } from './LoginScreen';
-import profileImage from '../../images/profile-small.png';
-
-// const profileSrc = '../../images/profile-small.png';
+import { LoginScreen } from './login/LoginScreen';
+import profileImage from './images/profile-small.png';
 
 class MyHomeScreen extends React.Component<{ navigation: any }> {
   static navigationOptions = {
     drawerLabel: 'Home',
     drawerIcon: ({ tintColor }) => (
-      <Image
-        source={profileImage}
-        style={[styles.icon, { tintColor: tintColor }]}
-      />
+      <Image source={profileImage} style={[styles.icon, { tintColor: tintColor }]} />
     )
   };
 
@@ -38,20 +26,12 @@ class MyNotificationsScreen extends React.Component<{ navigation: any }> {
   static navigationOptions = {
     drawerLabel: 'Notifications',
     drawerIcon: ({ tintColor }) => (
-      <Image
-        source={profileImage}
-        style={[styles.icon, { tintColor: tintColor }]}
-      />
+      <Image source={profileImage} style={[styles.icon, { tintColor: tintColor }]} />
     )
   };
 
   render() {
-    return (
-      <Button
-        onPress={() => this.props.navigation.goBack()}
-        title="Go back home"
-      />
-    );
+    return <Button onPress={() => this.props.navigation.goBack()} title="Go back home" />;
   }
 }
 

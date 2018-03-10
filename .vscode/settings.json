@@ -4,8 +4,7 @@
     "editor.formatOnSave": false
   },
   "files.exclude": {
-    ".idea": true,
-    "lib": true,
+    ".expo": true,
     "ios": true,
     "**/.git": true,
     "**/.svn": true,

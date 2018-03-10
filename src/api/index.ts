@@ -1,4 +1,4 @@
-import firebase from 'react-native-firebase';
+// import firebase from 'react-native-firebase';
 // import * as firebase from 'firebase';
 // Required for side-effects
 // import 'firebase/firestore';
