@@ -18,7 +18,18 @@ https://www.visualstudio.com/vs/msft-android-emulator/
 
 Open also in android studio.
 
-## OFFICIAL REQUIREMENTS
+## Resources
+
+Apollo:
+
+* `npm install react-apollo --save`
+
+Firebase:
+
+* https://rnfirebase.io/docs/v3.3.x/installation/initial-setup
+* https://rnfirebase.io/docs/v3.3.x/installation/android
+
+# OFFICIAL REQUIREMENTS
 
 Thank you for signing up for the final project of the React Native Academy.
 

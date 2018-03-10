@@ -44,7 +44,9 @@ export class LoginScreen extends React.Component<{}, { name: string; password: s
 const styles = StyleSheet.create({
   wrap: {
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 20,
+    backgroundColor: '#FFFFE0',
+    height: '100%'
   },
   content: {
     padding: 30,

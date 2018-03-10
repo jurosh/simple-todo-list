@@ -19,6 +19,6 @@
   },
   "filesGlob": ["src/**/*.ts", "src/**/*.tsx"],
   "types": ["react", "react-native", "jest"],
-  "exclude": ["android", "ios", "build", "node_modules"],
+  "exclude": ["android", "ios", "build", "node_modules", "_backend"],
   "compileOnSave": false
 }

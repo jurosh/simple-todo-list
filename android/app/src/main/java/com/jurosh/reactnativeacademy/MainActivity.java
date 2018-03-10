@@ -1,4 +1,4 @@
-package com.toptalacademy;
+package com.jurosh.reactnativeacademy;
 
 import com.facebook.react.ReactActivity;
 

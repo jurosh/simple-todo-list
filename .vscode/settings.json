@@ -5,6 +5,7 @@
   },
   "files.exclude": {
     ".idea": true,
+    "lib": true,
     "ios": true,
     "**/.git": true,
     "**/.svn": true,
