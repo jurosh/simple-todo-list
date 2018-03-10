@@ -6,13 +6,13 @@ import 'firebase/firestore'; // Required for side-effects
 var config = {
   apiKey: 'AIzaSyDZD4rj27VoH0Sx5srZfGWVH2_T4PbU5D8',
   authDomain: 'toptalreactnativeacademy.firebaseapp.com',
-  databaseURL: 'https://toptalreactnativeacademy.firebaseio.com',
-  projectId: 'toptalreactnativeacademy',
-  storageBucket: 'toptalreactnativeacademy.appspot.com',
-  messagingSenderId: '1081381779848'
+  // databaseURL: 'https://toptalreactnativeacademy.firebaseio.com',
+  projectId: 'toptalreactnativeacademy'
+  // storageBucket: 'toptalreactnativeacademy.appspot.com',
+  // messagingSenderId: '1081381779848'
 };
 
-let globalFirestoreDb: any | null = null;
+let globalFirestoreDb: firebase.firestore.Firestore | null = null;
 let globalOnLogout = () => {};
 let globalCredential: {
   apiKey: string;
@@ -57,21 +57,42 @@ export const logout = (): Promise<void> =>
 export const register = (email: string, password: string): Promise<void> =>
   firebase.auth().createUserWithEmailAndPassword(email, password);
 
+// There's currently an issue in react-native that prevents Firestore from workingproperly on Android.
+// See https://github.com/firebase/firebase-js-sdk/issues/283 and https://github.com/facebook/react-native/pull/17449.
+// As a workaround for now, you can probably add this code (before you initialize firebase) to work around the bug:
+const originalSend = XMLHttpRequest.prototype.send;
+XMLHttpRequest.prototype.send = function(body) {
+  if (body === '') {
+    originalSend.call(this);
+  } else {
+    originalSend.call(this, body);
+  }
+};
+
 export const initializeAndWaitForAuth = (
   onLogin: () => void,
   onLogout: () => void
 ): void => {
   console.log('[Firebase] Starting firebase connection...');
-  globalOnLogout = onLogout;
   firebase.initializeApp(config);
+  globalOnLogout = onLogout;
+  globalFirestoreDb = firebase.firestore();
 
   // Listen for authentication state to change.
   firebase.auth().onAuthStateChanged(user => {
     if (user != null) {
       console.log('[Firebase] We are authenticated now!');
+      // globalFirestoreDb = firebase.firestore();
+      // globalFirestoreDb
+      //   .collection('lists')
+      //   .get()
+      //   .then(collection => {
+      //     console.log('GOT DATA');
+      //     console.log(collection.size);
+      //   });
       onLogin();
     }
   });
-
-  globalFirestoreDb = firebase.firestore();
 };
+
+export const getDb = (): firebase.firestore.Firestore => globalFirestoreDb as any;
