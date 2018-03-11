@@ -10,7 +10,7 @@ import LoginScreen from './login/LoginScreen';
 import ListsScreen from './lists/ListsScreen';
 import ListScreen from './list/ListScreen';
 import profileImage from './images/profile-small.png';
-import { logout } from '../api';
+import { logout, getUserEmail } from '../api';
 
 class MyNotificationsScreen extends React.Component<{ navigation: any }> {
   static navigationOptions = {
@@ -27,7 +27,7 @@ class MyNotificationsScreen extends React.Component<{ navigation: any }> {
 
 const Header = props => (
   <ScrollView>
-    <Text>Profile</Text>
+    <Text style={{ marginTop: 25 }}>Profile {getUserEmail()}</Text>
     <DrawerItems {...props} />
     <Button title="Log out" onPress={logout} />
   </ScrollView>

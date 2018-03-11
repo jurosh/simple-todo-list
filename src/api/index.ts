@@ -14,21 +14,16 @@ var config = {
 
 let globalFirestoreDb: firebase.firestore.Firestore | null = null;
 let globalOnLogout = () => {};
-let globalCredential: {
-  apiKey: string;
-  email: string;
-  emailVerified: boolean;
-  photoURL: string | null;
-  uid: string;
-  stsTokenManager: {
-    accessToken: string;
-    apiKey: string;
-    expirationTime: number;
-    refreshToken: string;
-  };
-} | null = null;
+let globalCredential: firebase.UserInfo | null = null;
 
 export const getUserEmail = () => (globalCredential ? globalCredential.email : '');
+
+export const getUserId = () => {
+  if (globalCredential) {
+    return globalCredential.uid;
+  }
+  throw 'Missing user uuid';
+};
 
 export const getUserPhoto = () => (globalCredential ? globalCredential.photoURL : null);
 
@@ -37,9 +32,7 @@ export const login = (email: string, password: string): Promise<void> =>
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then(credential => {
-      if (credential) {
-        globalCredential = credential;
-      } else {
+      if (!credential) {
         console.warn('[Firebase] Issue with credentials');
       }
     });
@@ -82,14 +75,7 @@ export const initializeAndWaitForAuth = (
   firebase.auth().onAuthStateChanged(user => {
     if (user != null) {
       console.log('[Firebase] We are authenticated now!');
-      // globalFirestoreDb = firebase.firestore();
-      // globalFirestoreDb
-      //   .collection('lists')
-      //   .get()
-      //   .then(collection => {
-      //     console.log('GOT DATA');
-      //     console.log(collection.size);
-      //   });
+      globalCredential = user;
       onLogin();
     }
   });

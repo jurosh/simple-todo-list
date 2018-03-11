@@ -38,7 +38,9 @@ class LoginScreen extends React.Component<{}, IState> {
     const { email, password } = this.state;
     register(email, password)
       .then(() => {
-        Alert.alert('Success! You can now continue with sign-in');
+        console.log('[LoginScreen] Added user ');
+
+        // Alert.alert('Success! You can now continue with sign-in');
       })
       .catch(error => {
         Alert.alert(error.toString());

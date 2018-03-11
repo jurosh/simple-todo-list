@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
-import { getLists } from '../../api/lists';
+import AddList from './AddList';
+import { queryLists, removeList } from '../../api/lists';
 
 interface IProps extends NavigationInjectedProps {}
 
@@ -16,16 +17,23 @@ export default class ListsScreen extends React.Component<IProps, IState> {
     loading: true
   };
 
+  listsUnsubscribe: (() => void) | null = null;
+
   componentDidMount() {
-    getLists().then(querySnapshot => {
+    this.listsUnsubscribe = queryLists().onSnapshot(snapshot => {
       const lists: any[] = [];
-      querySnapshot.forEach(document => {
+      snapshot.forEach(document => {
         const data = document.data();
-        console.log(data.name);
         lists.push({ name: data.name, id: document.id, todosCount: data.todos.length });
       });
       this.setState({ lists, loading: false });
     });
+  }
+
+  componentWillUnmount() {
+    if (this.listsUnsubscribe) {
+      this.listsUnsubscribe();
+    }
   }
 
   render() {
@@ -35,19 +43,21 @@ export default class ListsScreen extends React.Component<IProps, IState> {
       <View style={styles.wrap}>
         {loading && <Text style={styles.loading}>Loading...</Text>}
         {lists.map(list => (
-          <Text
-            key={list.name}
-            style={styles.item}
-            onPress={() =>
-              this.props.navigation.navigate('List', {
-                listId: list.id
-              })
-            }
-          >
-            {list.name} ({list.todosCount})
-          </Text>
+          <View key={list.id}>
+            <Text
+              style={styles.item}
+              onPress={() =>
+                this.props.navigation.navigate('List', {
+                  listId: list.id
+                })
+              }
+            >
+              {list.name} ({list.todosCount}){' '}
+            </Text>
+            <Button onPress={() => removeList(list.id)} title="Delete" />
+          </View>
         ))}
-        <Button title="ADD NEW" onPress={() => {}} />
+        <AddList />
       </View>
     );
   }
