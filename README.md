@@ -2,6 +2,10 @@
 
 https://github.com/mathieudutour/create-react-native-app-typescript
 
+Contacts: https://docs.expo.io/versions/latest/sdk/contacts.html
+
+Sharing: https://facebook.github.io/react-native/docs/share.html
+
 # OFFICIAL REQUIREMENTS
 
 Thank you for signing up for the final project of the React Native Academy.
