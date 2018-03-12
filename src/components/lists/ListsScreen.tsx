@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import AddList from './AddList';
-import { queryLists, removeList } from '../../api/lists';
+import { queryLists } from '../../api/lists';
 
 interface IProps extends NavigationInjectedProps {}
 
@@ -38,23 +38,23 @@ export default class ListsScreen extends React.Component<IProps, IState> {
 
   render() {
     const { loading, lists } = this.state;
-    console.log('State Lists', this.state.lists);
     return (
       <View style={styles.wrap}>
+        <Text style={styles.heading}>Todos Lists</Text>
         {loading && <Text style={styles.loading}>Loading...</Text>}
         {lists.map(list => (
-          <View key={list.id}>
+          <View style={styles.item} key={list.id}>
             <Text
-              style={styles.item}
+              style={styles.itemText}
               onPress={() =>
-                this.props.navigation.navigate('List', {
+                this.props.navigation.navigate('Todos', {
                   listId: list.id
                 })
               }
             >
-              {list.name} ({list.todosCount}){' '}
+              {list.name}
             </Text>
-            <Button onPress={() => removeList(list.id)} title="Delete" />
+            <Text style={styles.count}>{list.todosCount}</Text>
           </View>
         ))}
         <AddList />
@@ -63,17 +63,39 @@ export default class ListsScreen extends React.Component<IProps, IState> {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   wrap: {
     paddingHorizontal: 10,
-    paddingVertical: 20
+    paddingVertical: 30
+  },
+  heading: {
+    fontSize: 30,
+    textAlign: 'center'
   },
   loading: {
     fontSize: 22,
     marginVertical: 30
   },
   item: {
-    paddingVertical: 30,
-    fontSize: 25
+    backgroundColor: '#FFFFE0',
+    marginVertical: 10,
+    padding: 10,
+    borderColor: '#FFEA00',
+    borderWidth: 1,
+    borderRadius: 5,
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  itemText: {
+    fontSize: 25,
+    flex: 1
+  },
+  count: {
+    backgroundColor: '#FFEA00',
+    borderRadius: 100,
+    width: 50,
+    height: 40,
+    fontSize: 25,
+    textAlign: 'center'
   }
-};
+});

@@ -42,7 +42,7 @@ export default class AddList extends React.Component {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   wrap: {
     paddingHorizontal: 10,
     paddingVertical: 20
@@ -50,4 +50,4 @@ const styles = {
   input: {
     paddingVertical: 30
   }
-};
+});

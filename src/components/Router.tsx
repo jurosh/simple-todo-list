@@ -8,8 +8,8 @@ import {
 } from 'react-navigation';
 import LoginScreen from './login/LoginScreen';
 import ListsScreen from './lists/ListsScreen';
-import ListScreen from './list/ListScreen';
-import profileImage from './images/profile-small.png';
+import TodosScreen from './todos/TodosScreen';
+import profileImage from './images/profile.png';
 import { logout, getUserEmail } from '../api';
 
 class MyNotificationsScreen extends React.Component<{ navigation: any }> {
@@ -27,13 +27,28 @@ class MyNotificationsScreen extends React.Component<{ navigation: any }> {
 
 const Header = props => (
   <ScrollView>
-    <Text style={{ marginTop: 25 }}>Profile {getUserEmail()}</Text>
+    <View style={styles.profile}>
+      <Image style={styles.profileImg} source={profileImage} />
+      <Text style={styles.profileText}>{getUserEmail()}</Text>
+      <Button title="Log out" onPress={logout} />
+    </View>
     <DrawerItems {...props} />
-    <Button title="Log out" onPress={logout} />
   </ScrollView>
 );
 
 const styles = StyleSheet.create({
+  profile: {
+    marginVertical: 25,
+    alignItems: 'center'
+  },
+  profileImg: {
+    width: 200,
+    height: 200
+  },
+  profileText: {
+    marginBottom: 15,
+    fontSize: 20
+  },
   icon: {
     width: 150,
     height: 150
@@ -45,8 +60,8 @@ const Router = DrawerNavigator(
     Lists: {
       screen: ListsScreen
     },
-    List: {
-      screen: ListScreen
+    Todos: {
+      screen: TodosScreen
     }
   },
   {

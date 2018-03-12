@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
-import { queryList, addTodo } from '../../api/lists';
+import { queryList, addTodo, removeList } from '../../api/lists';
+import { shareTodosList } from './todosShare';
+import { ITodo } from './types';
 
 interface IState {
   name: string;
-  todos: any[];
+  todos: ITodo[];
 }
 interface IProps extends NavigationInjectedProps {}
 
-export default class ListScreen extends React.Component<IProps, IState> {
+export default class TodosScreen extends React.Component<IProps, IState> {
   state: IState = {
     name: '',
     todos: []
@@ -32,7 +34,6 @@ export default class ListScreen extends React.Component<IProps, IState> {
     }
     this.unsubscribe = queryList(listId).onSnapshot(snapshot => {
       const { todos, name } = snapshot.data() as any;
-      // console.log(todos, name);
       this.setState({ name, todos });
     });
   }
@@ -60,6 +61,19 @@ export default class ListScreen extends React.Component<IProps, IState> {
           ))}
         </View>
         <View style={styles.margin}>
+          <Button title="SHARE" onPress={() => shareTodosList(name, todos)} />
+        </View>
+        <View style={styles.margin}>
+          <Button
+            onPress={() => {
+              this.unsubscribe && this.unsubscribe();
+              this.props.navigation.navigate('Lists');
+              removeList(listId);
+            }}
+            title="Delete"
+          />
+        </View>
+        <View style={styles.margin}>
           <Button title="ADD NEW" onPress={() => addTodo(listId)} />
         </View>
       </View>
@@ -67,7 +81,7 @@ export default class ListScreen extends React.Component<IProps, IState> {
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   wrap: {
     paddingHorizontal: 10,
     paddingVertical: 20
@@ -75,4 +89,4 @@ const styles = {
   margin: {
     marginVertical: 30
   }
-};
+});
