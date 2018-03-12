@@ -7,8 +7,8 @@ var config = {
   apiKey: 'AIzaSyDZD4rj27VoH0Sx5srZfGWVH2_T4PbU5D8',
   authDomain: 'toptalreactnativeacademy.firebaseapp.com',
   // databaseURL: 'https://toptalreactnativeacademy.firebaseio.com',
-  projectId: 'toptalreactnativeacademy'
-  // storageBucket: 'toptalreactnativeacademy.appspot.com',
+  projectId: 'toptalreactnativeacademy',
+  storageBucket: 'toptalreactnativeacademy.appspot.com'
   // messagingSenderId: '1081381779848'
 };
 

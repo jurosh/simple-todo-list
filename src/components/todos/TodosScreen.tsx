@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
-import { queryList, addTodo, removeList } from '../../api/lists';
+import { queryList, addTodo, removeList, uploadTodoImage } from '../../api/lists';
+import { takePhoto, pickExistingPhoto } from '../../api/camera';
 import { shareTodosList } from './todosShare';
 import { ITodo } from './types';
+import { ImagePicker } from 'expo';
 
 interface IState {
   name: string;
@@ -44,39 +46,64 @@ export default class TodosScreen extends React.Component<IProps, IState> {
     }
   }
 
+  uploadPhoto = (image: ImagePicker.ImageResult) => {
+    // console.log(Object.keys(image));
+    if (image.cancelled) {
+      return;
+    }
+    uploadTodoImage(this.getListId(), (image as any).base64);
+  };
+
   render() {
     const { name, todos } = this.state;
     const listId = this.getListId();
     return (
-      <View style={styles.wrap}>
-        <View style={styles.margin}>
-          <Button onPress={() => this.props.navigation.goBack()} title="GO BACK" />
+      <ScrollView>
+        <View style={styles.wrap}>
+          <View style={styles.margin}>
+            <Button onPress={() => this.props.navigation.goBack()} title="GO BACK" />
+          </View>
+          <View style={styles.margin}>
+            <Text>Detail {name}</Text>
+            {todos.map((todo, index) => (
+              <View key={`${todo.text}_${index}`}>
+                {todo.image ? (
+                  <Image source={{ uri: todo.image }} style={styles.todoImage} />
+                ) : (
+                  <Text>{todo.text}</Text>
+                )}
+              </View>
+            ))}
+          </View>
+          <View style={styles.margin}>
+            <Button title="SHARE" onPress={() => shareTodosList(name, todos)} />
+          </View>
+          <View style={styles.margin}>
+            <Button
+              onPress={() => {
+                this.unsubscribe && this.unsubscribe();
+                removeList(listId);
+                this.props.navigation.navigate('Lists');
+              }}
+              title="Delete"
+            />
+          </View>
+          <View style={styles.margin}>
+            <Button
+              title="ADD NEW"
+              onPress={() => addTodo(listId, { text: 'Example Todo' })}
+            />
+            <Button
+              title="PICK PHOTO"
+              onPress={() => pickExistingPhoto().then(this.uploadPhoto)}
+            />
+            <Button
+              title="TAKE PHOTO"
+              onPress={() => takePhoto().then(this.uploadPhoto)}
+            />
+          </View>
         </View>
-        <View style={styles.margin}>
-          <Text>Detail {name}</Text>
-          {todos.map((todo, index) => (
-            <View key={`${todo.text}_${index}`}>
-              <Text>{todo.text}</Text>
-            </View>
-          ))}
-        </View>
-        <View style={styles.margin}>
-          <Button title="SHARE" onPress={() => shareTodosList(name, todos)} />
-        </View>
-        <View style={styles.margin}>
-          <Button
-            onPress={() => {
-              this.unsubscribe && this.unsubscribe();
-              this.props.navigation.navigate('Lists');
-              removeList(listId);
-            }}
-            title="Delete"
-          />
-        </View>
-        <View style={styles.margin}>
-          <Button title="ADD NEW" onPress={() => addTodo(listId)} />
-        </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -88,5 +115,8 @@ const styles = StyleSheet.create({
   },
   margin: {
     marginVertical: 30
+  },
+  todoImage: {
+    height: 100
   }
 });

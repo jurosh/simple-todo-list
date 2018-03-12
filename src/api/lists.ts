@@ -1,4 +1,6 @@
+import * as firebase from 'firebase';
 import { getDb, getUserId } from './index';
+import { uploadImageAsync } from './image';
 
 export const queryList = listId =>
   getDb()
@@ -8,7 +10,6 @@ export const queryList = listId =>
     .doc(listId);
 
 export const queryLists = () =>
-  //: Promise<{ name: string }[]> =>
   getDb()
     .collection('users')
     .doc(getUserId())
@@ -39,7 +40,7 @@ export const createList = (name: string) =>
       ]
     });
 
-export const addTodo = listId =>
+export const addTodo = (listId, todoObject: { text: string; image?: string }) =>
   getDb()
     .runTransaction(transaction => {
       const listRef = getDb()
@@ -55,13 +56,19 @@ export const addTodo = listId =>
         }
 
         var todos: any[] = (doc as any).data().todos;
-        todos.push({
-          text: ' Some Nice Todo'
-        });
+        todos.push(todoObject);
         transaction.update(listRef, {
           todos
         });
       });
     })
     .then(() => console.log('Transaction successfully committed!'))
-    .catch(error => console.log('Transaction failed: ', error));
+    .catch(error => console.warn('Transaction failed', error));
+
+export const uploadTodoImage = async (listId, base64: string) => {
+  const imageUrl = await uploadImageAsync(base64);
+  return addTodo(listId, {
+    text: 'Image',
+    image: imageUrl
+  });
+};

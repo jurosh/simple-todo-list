@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
+import {
+  Image,
+  Button,
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TextInput
+} from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import AddList from './AddList';
 import { queryLists } from '../../api/lists';
@@ -7,12 +15,14 @@ import { queryLists } from '../../api/lists';
 interface IProps extends NavigationInjectedProps {}
 
 interface IState {
+  search: string;
   lists: { name: string; id: string; todosCount: number }[];
   loading: boolean;
 }
 
 export default class ListsScreen extends React.Component<IProps, IState> {
   state: IState = {
+    search: '',
     lists: [],
     loading: true
   };
@@ -41,22 +51,29 @@ export default class ListsScreen extends React.Component<IProps, IState> {
     return (
       <View style={styles.wrap}>
         <Text style={styles.heading}>Todos Lists</Text>
+        <TextInput
+          style={styles.search}
+          onChangeText={text => this.setState({ search: text })}
+        />
         {loading && <Text style={styles.loading}>Loading...</Text>}
-        {lists.map(list => (
-          <View style={styles.item} key={list.id}>
-            <Text
-              style={styles.itemText}
-              onPress={() =>
-                this.props.navigation.navigate('Todos', {
-                  listId: list.id
-                })
-              }
-            >
-              {list.name}
-            </Text>
-            <Text style={styles.count}>{list.todosCount}</Text>
-          </View>
-        ))}
+        {lists.map(
+          list =>
+            list.name.includes(this.state.search) && (
+              <View style={styles.item} key={list.id}>
+                <Text
+                  style={styles.itemText}
+                  onPress={() =>
+                    this.props.navigation.navigate('Todos', {
+                      listId: list.id
+                    })
+                  }
+                >
+                  {list.name}
+                </Text>
+                <Text style={styles.count}>{list.todosCount}</Text>
+              </View>
+            )
+        )}
         <AddList />
       </View>
     );
@@ -71,6 +88,10 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
     textAlign: 'center'
+  },
+  search: {
+    padding: 10,
+    margin: 10
   },
   loading: {
     fontSize: 22,
