@@ -5,11 +5,13 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  TouchableNativeFeedback,
   Text,
   TextInput
 } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import AddList from './AddList';
+import Layout from '../Layout';
 import { queryLists } from '../../api/lists';
 
 interface IProps extends NavigationInjectedProps {}
@@ -49,8 +51,7 @@ export default class ListsScreen extends React.Component<IProps, IState> {
   render() {
     const { loading, lists } = this.state;
     return (
-      <View style={styles.wrap}>
-        <Text style={styles.heading}>Todos Lists</Text>
+      <Layout heading="Todos Lists">
         <TextInput
           style={styles.search}
           onChangeText={text => this.setState({ search: text })}
@@ -59,36 +60,33 @@ export default class ListsScreen extends React.Component<IProps, IState> {
         {lists.map(
           list =>
             list.name.includes(this.state.search) && (
-              <View style={styles.item} key={list.id}>
-                <Text
-                  style={styles.itemText}
-                  onPress={() =>
-                    this.props.navigation.navigate('Todos', {
-                      listId: list.id
-                    })
-                  }
-                >
-                  {list.name}
-                </Text>
-                <Text style={styles.count}>{list.todosCount}</Text>
-              </View>
+              <TouchableNativeFeedback
+                background={TouchableNativeFeedback.SelectableBackground()}
+                key={list.id}
+              >
+                <View style={styles.item}>
+                  <Text
+                    style={styles.itemText}
+                    onPress={() =>
+                      this.props.navigation.navigate('Todos', {
+                        listId: list.id
+                      })
+                    }
+                  >
+                    {list.name}
+                  </Text>
+                  <Text style={styles.count}>{list.todosCount}</Text>
+                </View>
+              </TouchableNativeFeedback>
             )
         )}
         <AddList />
-      </View>
+      </Layout>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    paddingHorizontal: 10,
-    paddingVertical: 30
-  },
-  heading: {
-    fontSize: 30,
-    textAlign: 'center'
-  },
   search: {
     padding: 10,
     margin: 10
@@ -98,12 +96,12 @@ const styles = StyleSheet.create({
     marginVertical: 30
   },
   item: {
-    backgroundColor: '#FFFFE0',
     marginVertical: 10,
-    padding: 10,
+    backgroundColor: '#FFFFE0',
     borderColor: '#FFEA00',
     borderWidth: 1,
     borderRadius: 5,
+    padding: 10,
     display: 'flex',
     flexDirection: 'row'
   },
