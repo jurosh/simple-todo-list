@@ -10,6 +10,8 @@ Camera: https://docs.expo.io/versions/latest/sdk/imagepicker.html
 
 Uploading image: https://forums.expo.io/t/expo-and-uploading-image-blobs/227/20
 
+CheckBox: https://github.com/crazycodeboy/react-native-check-box
+
 # OFFICIAL REQUIREMENTS
 
 Thank you for signing up for the final project of the React Native Academy.

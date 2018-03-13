@@ -1,22 +1,25 @@
 import * as React from 'react';
 import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
-import { queryList, addTodo, removeList, uploadTodoImage } from '../../api/lists';
+import { queryTodos, addTodo, removeList, uploadTodoImage, ITodo } from '../../api/lists';
 import { takePhoto, pickExistingPhoto } from '../../api/camera';
 import { shareTodosList } from './todosShare';
 import Layout from '../Layout';
-import { ITodo } from './types';
+import TodoItem from './TodoItem';
 import { ImagePicker } from 'expo';
+// import EditableHeading from './EditableHeading';
+
+interface ITodoId extends ITodo {
+  id: string;
+}
 
 interface IState {
-  name: string;
-  todos: ITodo[];
+  todos: ITodoId[];
 }
 interface IProps extends NavigationInjectedProps {}
 
 export default class TodosScreen extends React.Component<IProps, IState> {
   state: IState = {
-    name: '',
     todos: []
   };
 
@@ -30,14 +33,27 @@ export default class TodosScreen extends React.Component<IProps, IState> {
     return params.listId;
   };
 
+  getListName = () => {
+    const { params } = this.props.navigation.state as any;
+    if (!params || !params.listName) {
+      return;
+    }
+    return params.listName;
+  };
+
   componentDidMount() {
     const listId = this.getListId();
     if (!listId) {
       return;
     }
-    this.unsubscribe = queryList(listId).onSnapshot(snapshot => {
-      const { todos, name } = snapshot.data() as any;
-      this.setState({ name, todos });
+    this.unsubscribe = queryTodos(listId).onSnapshot(snapshot => {
+      const todos = snapshot.docs;
+      this.setState({
+        todos: todos.map(doc => ({
+          ...(doc.data() as ITodo),
+          id: doc.id
+        }))
+      });
     });
   }
 
@@ -48,7 +64,6 @@ export default class TodosScreen extends React.Component<IProps, IState> {
   }
 
   uploadPhoto = (image: ImagePicker.ImageResult) => {
-    // console.log(Object.keys(image));
     if (image.cancelled) {
       return;
     }
@@ -56,19 +71,19 @@ export default class TodosScreen extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { name, todos } = this.state;
+    const { todos } = this.state;
+    const name = this.getListName();
     const listId = this.getListId();
     return (
       <Layout heading={name} back={() => this.props.navigation.goBack()}>
         <View style={styles.margin}>
           {todos.map((todo, index) => (
-            <View key={`${todo.text}_${index}`}>
-              {todo.image ? (
-                <Image source={{ uri: todo.image }} style={styles.todoImage} />
-              ) : (
-                <Text>{todo.text}</Text>
-              )}
-            </View>
+            <TodoItem
+              key={`${todo.text}_${index}`}
+              todo={todo}
+              todoId={todo.id}
+              listId={listId}
+            />
           ))}
         </View>
         <View style={styles.margin}>

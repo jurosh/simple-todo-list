@@ -12,7 +12,7 @@ import {
 import { NavigationInjectedProps } from 'react-navigation';
 import AddList from './AddList';
 import Layout from '../Layout';
-import { queryLists } from '../../api/lists';
+import { queryLists, IList } from '../../api/lists';
 
 interface IProps extends NavigationInjectedProps {}
 
@@ -35,8 +35,8 @@ export default class ListsScreen extends React.Component<IProps, IState> {
     this.listsUnsubscribe = queryLists().onSnapshot(snapshot => {
       const lists: any[] = [];
       snapshot.forEach(document => {
-        const data = document.data();
-        lists.push({ name: data.name, id: document.id, todosCount: data.todos.length });
+        const data = document.data() as IList;
+        lists.push({ name: data.name, id: document.id, todosCount: data.count });
       });
       this.setState({ lists, loading: false });
     });
@@ -61,20 +61,17 @@ export default class ListsScreen extends React.Component<IProps, IState> {
           list =>
             list.name.includes(this.state.search) && (
               <TouchableNativeFeedback
-                background={TouchableNativeFeedback.SelectableBackground()}
+                background={TouchableNativeFeedback.Ripple('yellow')}
                 key={list.id}
+                onPress={() =>
+                  this.props.navigation.navigate('Todos', {
+                    listId: list.id,
+                    listName: list.name
+                  })
+                }
               >
                 <View style={styles.item}>
-                  <Text
-                    style={styles.itemText}
-                    onPress={() =>
-                      this.props.navigation.navigate('Todos', {
-                        listId: list.id
-                      })
-                    }
-                  >
-                    {list.name}
-                  </Text>
+                  <Text style={styles.itemText}>{list.name}</Text>
                   <Text style={styles.count}>{list.todosCount}</Text>
                 </View>
               </TouchableNativeFeedback>
