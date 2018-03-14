@@ -5,7 +5,7 @@
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
   "scripts": {
     "startc": "npm start -- --reset-cache",
-    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.51' react-native-scripts-ts start",
+    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.80.64' react-native-scripts-ts start",
     "eject": "react-native-scripts-ts eject",
     "android": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.51' react-native-scripts-ts android",
     "ios": "react-native-scripts-ts ios",

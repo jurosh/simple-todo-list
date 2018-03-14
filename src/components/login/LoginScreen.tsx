@@ -3,6 +3,7 @@ import {
   View,
   TextInput,
   Text,
+  KeyboardAvoidingView,
   Button,
   Image,
   ScrollView,
@@ -44,38 +45,36 @@ class LoginScreen extends React.Component<{}, IState> {
   render() {
     const { email, password } = this.state;
     return (
-      <ScrollView
-        style={styles.scroll}
-        overScrollMode="always"
-        keyboardDismissMode="on-drag"
-      >
-        <View style={styles.wrap}>
-          <Image source={profileImage} />
-          <View style={styles.content}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={text => this.setState({ email: text })}
-              value={email}
-            />
+      <ScrollView style={styles.scroll} overScrollMode="always">
+        <KeyboardAvoidingView behavior="padding">
+          <View style={styles.wrap}>
+            <Image source={profileImage} />
+            <View style={styles.content}>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={text => this.setState({ email: text })}
+                value={email}
+              />
 
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              secureTextEntry
-              onChangeText={text => this.setState({ password: text })}
-              value={password}
-            />
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                onChangeText={text => this.setState({ password: text })}
+                value={password}
+              />
 
-            <View style={styles.buttonWrap}>
-              <Button title="Login" onPress={this.login} />
-              <View style={styles.registerWrap}>
-                <Text>OR</Text>
-                <Button color="#82B1FF" title="Register" onPress={this.register} />
+              <View style={styles.buttonWrap}>
+                <Button title="Login" onPress={this.login} />
+                <View style={styles.registerWrap}>
+                  <Text>OR</Text>
+                  <Button color="#82B1FF" title="Register" onPress={this.register} />
+                </View>
               </View>
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     );
   }
@@ -100,8 +99,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   buttonWrap: {
-    marginTop: 40,
-    marginBottom: 200
+    marginTop: 40
   },
   registerWrap: {
     alignItems: 'center',
