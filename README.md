@@ -14,6 +14,14 @@ CheckBox: https://github.com/crazycodeboy/react-native-check-box
 
 Keyboard: https://facebook.github.io/react-native/docs/keyboardavoidingview.html
 
+## Firebase Rest API
+
+Auth
+
+https://firebase.google.com/docs/reference/rest/auth/
+
+https://firebase.google.com/docs/database/rest/auth
+
 # OFFICIAL REQUIREMENTS
 
 Thank you for signing up for the final project of the React Native Academy.

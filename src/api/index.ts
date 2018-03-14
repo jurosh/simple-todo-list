@@ -3,7 +3,7 @@ import FireAuth from 'react-native-firebase-auth';
 import 'firebase/firestore'; // Required for side-effects
 
 // https://firebase.google.com/docs/firestore/quickstart
-var config = {
+const config = {
   apiKey: 'AIzaSyDZD4rj27VoH0Sx5srZfGWVH2_T4PbU5D8',
   authDomain: 'toptalreactnativeacademy.firebaseapp.com',
   // databaseURL: 'https://toptalreactnativeacademy.firebaseio.com',

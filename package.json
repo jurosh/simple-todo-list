@@ -5,7 +5,7 @@
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
   "scripts": {
     "startc": "npm start -- --reset-cache",
-    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.80.64' react-native-scripts-ts start",
+    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.50' react-native-scripts-ts start",
     "eject": "react-native-scripts-ts eject",
     "android": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.51' react-native-scripts-ts android",
     "ios": "react-native-scripts-ts ios",
@@ -23,7 +23,9 @@
     "react-native-firebase-auth": "^1.0.1",
     "react-native-google-sign-in": "^1.0.16",
     "react-native-image-preview": "^0.3.1",
-    "react-navigation": "^1.5.1"
+    "react-navigation": "^1.5.1",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "@types/jest": "^22.0.0",
