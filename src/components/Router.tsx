@@ -12,6 +12,7 @@ import AboutScreen from './about/AboutScreen';
 import profileImage from './images/profile.png';
 import hamburgerImage from './images/hamburger.png';
 import { logout, getUserEmail } from '../api';
+import ContactsPickerScreen from './contacts/ContactsPickerScreen';
 
 const Header = props => (
   <ScrollView>
@@ -53,6 +54,9 @@ const Router = DrawerNavigator(
     },
     About: {
       screen: AboutScreen
+    },
+    ContactsPicker: {
+      screen: ContactsPickerScreen
     }
   },
   {

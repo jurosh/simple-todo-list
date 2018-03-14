@@ -44,7 +44,6 @@ export default class TodoItem extends React.Component<IProps, IState> {
             rightText={todo.text}
           />
         </View>
-        <Button title={'CONTACTS !'} onPress={getAllContacts} />
         {todo.image && (
           <View style={styles.imageWrap}>
             <TouchableNativeFeedback

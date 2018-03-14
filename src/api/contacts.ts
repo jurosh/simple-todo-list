@@ -20,7 +20,7 @@ const getContactsPart = pageOffset => {
   });
 };
 
-export const getAllContacts = async () => {
+export const getAllContacts = async (processBatch: (data, hasNext, total) => void) => {
   const permission = await Expo.Permissions.askAsync(Expo.Permissions.CONTACTS);
   if (permission.status !== 'granted') {
     return;
@@ -30,6 +30,7 @@ export const getAllContacts = async () => {
   while (hasNext) {
     const { data, hasNextPage, hasPreviousPage, total } = await getContactsPart(offset);
     hasNext = hasNextPage;
+    processBatch(data, hasNext, total);
     console.log('OFFSET', offset);
     offset += 20;
   }
