@@ -5,6 +5,7 @@ import {
   Text,
   KeyboardAvoidingView,
   Button,
+  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
@@ -16,34 +17,30 @@ import profileImage from './images/todos.png';
 interface IState {
   email: string;
   password: string;
+  loading: boolean;
 }
 
 class LoginScreen extends React.Component<{}, IState> {
   state = {
     email: '',
-    password: ''
+    password: '',
+    loading: false
   };
 
-  login = () => {
-    const { email, password } = this.state;
-    login(email, password).catch(error => {
+  loaderPromise = (promise: Promise<any>) => {
+    this.setState({ loading: true });
+    promise.then(() => this.setState({ loading: false })).catch(error => {
+      this.setState({ loading: false });
       Alert.alert(error.toString());
     });
   };
 
-  register = () => {
-    const { email, password } = this.state;
-    register(email, password)
-      .then(() => {
-        console.log('[LoginScreen] Success - user registration');
-      })
-      .catch(error => {
-        Alert.alert(error.toString());
-      });
-  };
+  login = () => this.loaderPromise(login(this.state.email, this.state.password));
+
+  register = () => this.loaderPromise(register(this.state.email, this.state.password));
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, loading } = this.state;
     return (
       <ScrollView style={styles.scroll} overScrollMode="always">
         <KeyboardAvoidingView behavior="padding">
@@ -66,11 +63,17 @@ class LoginScreen extends React.Component<{}, IState> {
               />
 
               <View style={styles.buttonWrap}>
-                <Button title="Login" onPress={this.login} />
-                <View style={styles.registerWrap}>
-                  <Text>OR</Text>
-                  <Button color="#82B1FF" title="Register" onPress={this.register} />
-                </View>
+                {loading ? (
+                  <ActivityIndicator size="large" />
+                ) : (
+                  <React.Fragment>
+                    <Button title="Login" onPress={this.login} />
+                    <View style={styles.registerWrap}>
+                      <Text>OR</Text>
+                      <Button color="#82B1FF" title="Register" onPress={this.register} />
+                    </View>
+                  </React.Fragment>
+                )}
               </View>
             </View>
           </View>

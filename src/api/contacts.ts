@@ -12,10 +12,12 @@ const getContact = async id => {
   console.log(contact);
 };
 
+const PAGE_SIZE = 10;
+
 const getContactsPart = pageOffset => {
   return Expo.Contacts.getContactsAsync({
     fields: [], // Expo.Contacts.EMAILS], // Expo.Contacts.PHONE_NUMBERS, Expo.Contacts.THUMBNAIL],
-    pageSize: 20,
+    pageSize: PAGE_SIZE,
     pageOffset
   });
 };
@@ -30,9 +32,13 @@ export const getAllContacts = async (processBatch: (data, hasNext, total) => voi
   while (hasNext) {
     const { data, hasNextPage, hasPreviousPage, total } = await getContactsPart(offset);
     hasNext = hasNextPage;
-    processBatch(data, hasNext, total);
+    // TODO: required scope ?
+    ((data, hasNext, total) =>
+      requestAnimationFrame(() => {
+        processBatch(data, hasNext, total);
+      }))(data, hasNext, total);
     console.log('OFFSET', offset);
-    offset += 20;
+    offset += PAGE_SIZE;
   }
   return [];
 };

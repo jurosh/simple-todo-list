@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  ActivityIndicator,
   TouchableNativeFeedback,
   Text,
   TextInput
@@ -16,17 +17,22 @@ import { getAllContacts } from '../../api/contacts';
 import { addContacts, startAddContacts } from '../../redux/contacts';
 
 interface IProps {
-  list: any[];
+  list: { name: string; id: string; firstName: string }[];
   loading: boolean;
   total: number;
   onStartFetch: () => void;
   onFetched: (data: any, hasNext: boolean, total: number) => void;
 }
 
-class ContactsPickerScreen extends React.Component<IProps> {
-  // state = {
-  //   search: '' TODO:
-  // }
+interface IState {
+  search: string;
+}
+
+class ContactsPickerScreen extends React.Component<IProps, IState> {
+  state: IState = {
+    search: ''
+  };
+
   componentDidMount() {
     if (
       this.props.loading ||
@@ -45,29 +51,62 @@ class ContactsPickerScreen extends React.Component<IProps> {
   }
 
   render() {
-    // const { loading, lists } = this.state;
-    console.log(this.props.list[0]);
+    const { search } = this.state;
+    const { list, total, loading } = this.props;
     return (
       <Layout heading="Pick Contact">
-        <Text>
-          {this.props.loading && (
-            <Text>
-              (Loading... {this.props.list.length} of {this.props.total})
-            </Text>
-          )}
+        <TextInput
+          value={search}
+          onChangeText={text => this.setState({ search: text.toLowerCase() })}
+        />
+        {loading && (
+          <View style={styles.loader}>
+            <ActivityIndicator />
+          </View>
+        )}
+        <Text style={styles.loaderText}>
+          {list.length} of {total}
         </Text>
-        {this.props.list.map((contact, index) => (
-          <Text key={index}>
-            Contact {contact.id}, {contact.name}
-          </Text>
-        ))}
+        {list
+          .filter(
+            contact =>
+              contact && contact.name && contact.name.toLowerCase().includes(search)
+          )
+          .map((contact, index) => (
+            <TouchableNativeFeedback
+              key={index} /* TODO: contact.id */
+              background={TouchableNativeFeedback.Ripple('gray')}
+              onPress={() => {
+                'TODO';
+              }}
+            >
+              <View style={styles.contact}>
+                <Text>{contact.name}</Text>
+              </View>
+            </TouchableNativeFeedback>
+          ))}
       </Layout>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  //
+  loader: {
+    margin: 10
+  },
+  loaderText: {
+    textAlign: 'center'
+  },
+  contact: {
+    marginVertical: 10,
+    backgroundColor: '#FFFFE0',
+    borderColor: '#FFEA00',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    display: 'flex',
+    flexDirection: 'row'
+  }
 });
 
 const mapStateToProps = state => ({
@@ -84,7 +123,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(startAddContacts());
   },
   onFetched(data, hasNext, total) {
-    dispatch(addContacts(data, { hasNext, total }, false));
+    dispatch(addContacts(data, { hasNext, total }));
   }
 });
 

@@ -3,18 +3,20 @@ import { combineReducers } from 'redux';
 // Actions
 
 export const startAddContacts = () => ({
-  type: 'ADD_CONTACTS_START'
+  type: 'ADD_CONTACTS_START' as 'ADD_CONTACTS_START'
 });
 
-export const addContacts = (list, meta) => ({
-  type: 'ADD_CONTACTS',
+export const addContacts = (list: {}[], meta: { hasNext: boolean; total: number }) => ({
+  type: 'ADD_CONTACTS' as 'ADD_CONTACTS',
   list,
   meta
 });
 
+type Action = GetReturnedType<typeof startAddContacts | typeof addContacts>;
+
 // Reducers
 
-export const list = (state = [], action) => {
+export const list = (state: {}[] = [], action: Action) => {
   switch (action.type) {
     case 'ADD_CONTACTS_START':
       return [];

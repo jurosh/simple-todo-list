@@ -40,6 +40,6 @@
     "react-test-renderer": "16.2.0",
     "ts-jest": "^22.0.4",
     "tslib": "^1.7.1",
-    "typescript": "^2.7.0"
+    "typescript": "^2.8.0-rc"
   }
 }
