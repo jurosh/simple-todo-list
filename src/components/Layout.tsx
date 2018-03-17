@@ -10,7 +10,7 @@ import {
   Text
 } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import hamburgerImage from './images/hamburger.png';
 import backImage from './images/back.png';
 
@@ -28,12 +28,18 @@ const Layout = ({ children, heading, back, edit, footer, onEdit, navigation }: I
     <KeyboardAvoidingView behavior="padding">
       <View style={styles.topLine} />
       <View style={styles.head}>
-        <TouchableHighlight
-          style={styles.imageClickable}
-          onPress={() => navigation.navigate('DrawerOpen')}
-        >
-          <Entypo name="menu" size={40} />
-        </TouchableHighlight>
+        {back ? (
+          <TouchableHighlight style={styles.imageClickable} onPress={back}>
+            <MaterialIcons name="arrow-back" size={40} />
+          </TouchableHighlight>
+        ) : (
+          <TouchableHighlight
+            style={styles.imageClickable}
+            onPress={() => navigation.navigate('DrawerOpen')}
+          >
+            <Entypo name="menu" size={40} />
+          </TouchableHighlight>
+        )}
         <Text style={styles.heading}>{heading}</Text>
         {onEdit && (
           <View style={styles.editWrap}>
@@ -43,11 +49,6 @@ const Layout = ({ children, heading, back, edit, footer, onEdit, navigation }: I
               </View>
             </TouchableHighlight>
           </View>
-        )}
-        {back && (
-          <TouchableHighlight style={styles.imageClickable} onPress={back}>
-            <Entypo name="back" size={40} />
-          </TouchableHighlight>
         )}
       </View>
       <View style={styles.content}>{children}</View>

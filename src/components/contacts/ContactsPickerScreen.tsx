@@ -71,7 +71,7 @@ class ContactsPickerScreen extends React.Component<
     const { list, total, loading } = this.props;
     const nonDisplayedCount = list.length > DISPLAYED ? list.length + 1 - DISPLAYED : 0;
     return (
-      <Layout heading="Pick Contact">
+      <Layout heading="Pick Contact" back={() => this.props.navigation.goBack()}>
         <IconInput
           iconType="material"
           icon="search"

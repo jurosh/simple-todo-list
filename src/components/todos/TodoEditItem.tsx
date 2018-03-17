@@ -58,6 +58,7 @@ export default class TodoEditItem extends React.Component<IProps, IState> {
             )}
         </View>
         {todo.image && <ImageWithPreview image={todo.image} />}
+        {todo.contactName && <Text>{todo.contactName}</Text>}
       </View>
     );
   }

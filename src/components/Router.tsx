@@ -1,11 +1,22 @@
 import * as React from 'react';
-import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
+import {
+  Image,
+  Button,
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  Easing,
+  Animated
+} from 'react-native';
 import {
   DrawerNavigator,
   DrawerItems,
   addNavigationHelpers,
-  NavigationInjectedProps
+  NavigationInjectedProps,
+  StackNavigator
 } from 'react-navigation';
+import CardStackStyleInterpolator from 'react-navigation';
 import ListsScreen from './lists/ListsScreen';
 import TodosScreen from './todos/TodosScreen';
 import AboutScreen from './about/AboutScreen';
@@ -44,24 +55,49 @@ const styles = StyleSheet.create({
   }
 });
 
-const Router = DrawerNavigator(
+const transitionConfig = () => ({
+  transitionSpec: {
+    duration: 750,
+    easing: Easing.out(Easing.poly(4) as any),
+    timing: Animated.timing,
+    useNativeDriver: true
+  },
+  screenInterpolator: sceneProps => {
+    const { layout, position, scene } = sceneProps;
+
+    const thisSceneIndex = scene.index;
+    const width = layout.initWidth;
+
+    const translateX = position.interpolate({
+      inputRange: [thisSceneIndex - 1, thisSceneIndex],
+      outputRange: [width, 0]
+    });
+
+    return { transform: [{ translateX }] };
+  }
+});
+
+// const Router = DrawerNavigator(
+const StackRouter = StackNavigator(
   {
-    Lists: {
-      screen: ListsScreen
-    },
-    Todos: {
-      screen: TodosScreen
-    },
-    About: {
-      screen: AboutScreen
-    },
-    ContactsPicker: {
-      screen: ContactsPickerScreen
-    }
+    Lists: { screen: ListsScreen },
+    Todos: { screen: TodosScreen },
+    ContactsPicker: { screen: ContactsPickerScreen }
+  },
+  {
+    transitionConfig,
+    headerMode: 'none'
+  }
+);
+
+const DrawerRouter = DrawerNavigator(
+  {
+    Lists: { screen: StackRouter },
+    About: { screen: AboutScreen }
   },
   {
     contentComponent: Header
   }
 );
 
-export default Router;
+export default DrawerRouter;

@@ -18,6 +18,8 @@ Icons: https://expo.github.io/vector-icons/
 
 Colors: https://material.io/color/#!/?view.left=0&view.right=0&primary.color=FFEE58&secondary.color=6A1B9A
 
+Transitions: https://medium.com/async-la/custom-transitions-in-react-navigation-2f759408a053
+
 ## Firebase Rest API
 
 Auth
