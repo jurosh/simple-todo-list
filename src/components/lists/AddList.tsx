@@ -3,16 +3,29 @@ import {
   Image,
   Button,
   StyleSheet,
+  ActivityIndicator,
   TextInput,
   View,
   ScrollView,
   Alert,
   Text
 } from 'react-native';
+import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { createList } from '../../api/lists';
+import IconInput from '../basic/IconInput';
 
-export default class AddList extends React.Component {
+interface IProps {
+  onAdding: () => void;
+}
+
+interface IState {
+  loading: boolean;
+  name: string;
+}
+
+class AddList extends React.Component<IProps & NavigationInjectedProps> {
   state = {
+    loading: false,
     name: ''
   };
 
@@ -22,21 +35,33 @@ export default class AddList extends React.Component {
       Alert.alert('Enter new list name');
       return;
     }
-    createList(this.state.name).then(() => {
-      this.setState({ name: '' });
+    this.setState({ loading: true });
+    this.props.onAdding();
+    createList(name).then(data => {
+      // this.setState({ name: '' });
+      this.props.navigation.navigate('Todos', {
+        listId: data.id,
+        listName: name,
+        startAsEditable: true
+      });
     });
   };
 
   render() {
-    const { name } = this.state;
+    const { name, loading } = this.state;
     return (
-      <View>
-        <TextInput
-          style={styles.input}
-          onChangeText={text => this.setState({ name: text })}
-          value={name}
+      <View style={styles.wrap}>
+        <IconInput
+          iconType="entypo"
+          icon="new-message"
+          text={name}
+          onChange={text => this.setState({ name: text })}
         />
-        <Button title="ADD NEW" onPress={this.onAdd} />
+        {loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Button title="ADD NEW" onPress={this.onAdd} />
+        )}
       </View>
     );
   }
@@ -46,8 +71,7 @@ const styles = StyleSheet.create({
   wrap: {
     paddingHorizontal: 10,
     paddingVertical: 20
-  },
-  input: {
-    paddingVertical: 30
   }
 });
+
+export default withNavigation(AddList);

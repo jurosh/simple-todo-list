@@ -14,6 +14,8 @@ CheckBox: https://github.com/crazycodeboy/react-native-check-box
 
 Keyboard: https://facebook.github.io/react-native/docs/keyboardavoidingview.html
 
+Icons: https://expo.github.io/vector-icons/
+
 ## Firebase Rest API
 
 Auth
@@ -21,6 +23,14 @@ Auth
 https://firebase.google.com/docs/reference/rest/auth/
 
 https://firebase.google.com/docs/database/rest/auth
+
+# TODOS
+
+* tslint
+* code cleanup
+* backend restrictions, rules
+* remember login
+  ...
 
 # OFFICIAL REQUIREMENTS
 

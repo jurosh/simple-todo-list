@@ -7,25 +7,31 @@ import {
   ScrollView,
   TouchableNativeFeedback,
   Text,
-  TextInput
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import AddList from './AddList';
+import IconInput from '../basic/IconInput';
 import Layout from '../Layout';
 import { queryLists, IList } from '../../api/lists';
+import { ITodoList, storeLists } from '../../redux/lists';
+import { connect } from 'react-redux';
+import ListsContainer from './ListsContainer';
 
-interface IProps extends NavigationInjectedProps {}
+interface IProps extends NavigationInjectedProps {
+  lists: ITodoList[];
+  onFetched: (lists: ITodoList[]) => void;
+}
 
 interface IState {
   search: string;
-  lists: { name: string; id: string; todosCount: number }[];
   loading: boolean;
 }
 
-export default class ListsScreen extends React.Component<IProps, IState> {
+class ListsScreen extends React.Component<IProps, IState> {
   state: IState = {
     search: '',
-    lists: [],
     loading: true
   };
 
@@ -38,7 +44,8 @@ export default class ListsScreen extends React.Component<IProps, IState> {
         const data = document.data() as IList;
         lists.push({ name: data.name, id: document.id, todosCount: data.count });
       });
-      this.setState({ lists, loading: false });
+      this.props.onFetched(lists);
+      this.setState({ loading: false });
     });
   }
 
@@ -49,69 +56,58 @@ export default class ListsScreen extends React.Component<IProps, IState> {
   }
 
   render() {
-    const { loading, lists } = this.state;
+    const { search, loading } = this.state;
     return (
       <Layout heading="Todos Lists">
-        <TextInput
-          style={styles.search}
-          onChangeText={text => this.setState({ search: text })}
+        <IconInput
+          iconType="material"
+          icon="search"
+          text={search}
+          onChange={text => this.setState({ search: text })}
         />
-        {loading && <Text style={styles.loading}>Loading...</Text>}
-        {lists.map(
-          list =>
-            list.name.includes(this.state.search) && (
-              <TouchableNativeFeedback
-                background={TouchableNativeFeedback.Ripple('yellow')}
-                key={list.id}
-                onPress={() =>
-                  this.props.navigation.navigate('Todos', {
-                    listId: list.id,
-                    listName: list.name
-                  })
-                }
-              >
-                <View style={styles.item}>
-                  <Text style={styles.itemText}>{list.name}</Text>
-                  <Text style={styles.count}>{list.todosCount}</Text>
-                </View>
-              </TouchableNativeFeedback>
-            )
-        )}
-        <AddList />
+        <View style={styles.listings}>
+          {loading && (
+            <View style={styles.loader}>
+              <ActivityIndicator size="large" />
+            </View>
+          )}
+          <ListsContainer
+            search={search}
+            onItemClick={list =>
+              this.props.navigation.navigate('Todos', {
+                listId: list.id,
+                listName: list.name
+              })
+            }
+          />
+        </View>
+        <AddList onAdding={() => this.listsUnsubscribe && this.listsUnsubscribe()} />
       </Layout>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  search: {
-    padding: 10,
-    margin: 10
+  listings: {
+    position: 'relative',
+    minHeight: 100
   },
-  loading: {
-    fontSize: 22,
-    marginVertical: 30
-  },
-  item: {
-    marginVertical: 10,
-    backgroundColor: '#FFFFE0',
-    borderColor: '#FFEA00',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    display: 'flex',
-    flexDirection: 'row'
-  },
-  itemText: {
-    fontSize: 25,
-    flex: 1
-  },
-  count: {
-    backgroundColor: '#FFEA00',
-    borderRadius: 100,
-    width: 50,
-    height: 40,
-    fontSize: 25,
-    textAlign: 'center'
+  loader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 50,
+    zIndex: 99,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
+
+const mapDispatchToProps = dispatch => ({
+  onFetched(lists: ITodoList[]) {
+    dispatch(storeLists(lists));
+  }
+});
+
+export default connect(undefined, mapDispatchToProps)(ListsScreen);

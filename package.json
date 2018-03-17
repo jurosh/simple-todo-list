@@ -5,7 +5,7 @@
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
   "scripts": {
     "startc": "npm start -- --reset-cache",
-    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.50' react-native-scripts-ts start",
+    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.12' react-native-scripts-ts start",
     "eject": "react-native-scripts-ts eject",
     "android": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.51' react-native-scripts-ts android",
     "ios": "react-native-scripts-ts ios",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@types/expo": "^25.0.0",
+    "@types/expo__vector-icons": "^6.2.1",
     "cross-env": "^5.1.4",
     "expo": "^25.0.0",
     "firebase": "^4.11.0",

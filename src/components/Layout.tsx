@@ -10,6 +10,7 @@ import {
   Text
 } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
+import { Entypo } from '@expo/vector-icons';
 import hamburgerImage from './images/hamburger.png';
 import backImage from './images/back.png';
 
@@ -28,12 +29,12 @@ const Layout = ({ children, heading, back, navigation }: IPros) => (
             style={styles.imageClickable}
             onPress={() => navigation.navigate('DrawerOpen')}
           >
-            <Image style={styles.image} source={hamburgerImage} />
+            <Entypo name="menu" size={40} style={styles.image} />
           </TouchableHighlight>
           <Text style={styles.heading}>{heading}</Text>
           {back && (
             <TouchableHighlight style={styles.imageClickable} onPress={back}>
-              <Image style={styles.image} source={backImage} />
+              <Entypo name="back" size={40} style={styles.image} />
             </TouchableHighlight>
           )}
         </View>
@@ -62,8 +63,6 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   image: {
-    width: 40,
-    height: 40,
     backgroundColor: 'white'
   }
 });

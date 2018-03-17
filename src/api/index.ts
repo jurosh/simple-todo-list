@@ -67,7 +67,9 @@ export const initializeAndWaitForAuth = (
   onLogout: () => void
 ): void => {
   console.log('[Firebase] Starting firebase connection...');
+
   firebase.initializeApp(config);
+
   globalOnLogout = onLogout;
   globalFirestoreDb = firebase.firestore();
 

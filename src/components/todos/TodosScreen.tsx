@@ -1,5 +1,13 @@
 import * as React from 'react';
-import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
+import {
+  Image,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+  View,
+  ScrollView,
+  Text
+} from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { queryTodos, addTodo, removeList, uploadTodoImage, ITodo } from '../../api/lists';
 import { takePhoto, pickExistingPhoto } from '../../api/camera';
@@ -7,41 +15,48 @@ import { shareTodosList } from './todosShare';
 import Layout from '../Layout';
 import TodoItem from './TodoItem';
 import { ImagePicker } from 'expo';
-// import EditableHeading from './EditableHeading';
 
 interface ITodoId extends ITodo {
   id: string;
 }
 
-interface IState {
-  todos: ITodoId[];
+interface INavigationParams {
+  startAsEditable?: boolean;
+  listId: string;
+  listName: string;
 }
-interface IProps extends NavigationInjectedProps {}
+
+interface IProps {
+  navigation: {
+    navigate: (name: string) => void;
+    goBack: () => void;
+    state: {
+      params: INavigationParams;
+    };
+  };
+}
+
+interface IState {
+  loading: boolean;
+  todos: ITodoId[];
+  editable;
+}
 
 export default class TodosScreen extends React.Component<IProps, IState> {
   state: IState = {
-    todos: []
+    loading: false,
+    todos: [],
+    editable: !!this.props.navigation.state.params.startAsEditable
   };
 
   unsubscribe: (() => void) | null = null;
 
-  getListId = () => {
-    const { params } = this.props.navigation.state as any;
-    if (!params || !params.listId) {
-      return;
-    }
-    return params.listId;
-  };
+  getListId = () => this.props.navigation.state.params.listId;
 
-  getListName = () => {
-    const { params } = this.props.navigation.state as any;
-    if (!params || !params.listName) {
-      return;
-    }
-    return params.listName;
-  };
+  getListName = () => this.props.navigation.state.params.listName;
 
   componentDidMount() {
+    this.setState({ loading: true });
     const listId = this.getListId();
     if (!listId) {
       return;
@@ -52,7 +67,8 @@ export default class TodosScreen extends React.Component<IProps, IState> {
         todos: todos.map(doc => ({
           ...(doc.data() as ITodo),
           id: doc.id
-        }))
+        })),
+        loading: false
       });
     });
   }
@@ -71,12 +87,13 @@ export default class TodosScreen extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { todos } = this.state;
+    const { todos, editable, loading } = this.state;
     const name = this.getListName();
     const listId = this.getListId();
     return (
       <Layout heading={name} back={() => this.props.navigation.goBack()}>
         <View style={styles.margin}>
+          {loading && <ActivityIndicator size="large" />}
           {todos.map((todo, index) => (
             <TodoItem
               key={`${todo.text}_${index}`}
@@ -100,6 +117,11 @@ export default class TodosScreen extends React.Component<IProps, IState> {
           />
         </View>
         <View style={styles.margin}>
+          {}
+          <Button
+            title={editable ? 'EDIT DONE' : 'EDIT'}
+            onPress={() => this.setState({ editable: !editable })}
+          />
           <Button
             title="ADD NEW"
             onPress={() => addTodo(listId, { text: 'Example Todo' })}
