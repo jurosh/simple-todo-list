@@ -8,7 +8,8 @@ export const queryTodos = listId =>
     .doc(getUserId())
     .collection('lists')
     .doc(listId)
-    .collection('todos');
+    .collection('todos')
+    .orderBy('createdAt');
 
 export const queryLists = () =>
   getDb()
@@ -31,18 +32,9 @@ export const createList = (name: string) =>
     .collection('lists')
     .add({
       name,
-      count: 0
+      count: 0,
+      createdAt: new Date()
     } as IList);
-
-export const removeTodo = (listId: string, id: string) =>
-  getDb()
-    .collection('users')
-    .doc(getUserId())
-    .collection('lists')
-    .doc(listId)
-    .collection('todos')
-    .doc(id)
-    .delete();
 
 export interface IList {
   name: string;
@@ -63,7 +55,11 @@ export const addTodo = (listId, todoObject: ITodo) =>
       .collection('lists')
       .doc(listId)
       .collection('todos')
-      .add(todoObject);
+      .add({
+        ...todoObject,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
 
     const listRef = getDb()
       .collection('users')
@@ -86,30 +82,20 @@ export const updateTodo = (listId: string, todoId: string, todo: ITodo) =>
     .doc(listId)
     .collection('todos')
     .doc(todoId)
-    .update(todo);
-// Restrict to only fields
-// .set({
-//   check: todo.check,
-//   image: todo.image,
-//   text: todo.text
-// });
+    .update({
+      ...todo,
+      updatedAt: new Date()
+    });
 
-// .runTransaction(transaction => {
-// This code may get re-run multiple times if there are conflicts.
-// return transaction.get(listRef).then(doc => {
-//   if (!doc || !doc.exists) {
-//     throw 'Document does not exist!';
-//   }
-
-//   var todos: any[] = (doc as any).data().todos;
-//   todos.push(todoObject);
-//   transaction.update(listRef, {
-//     todos
-//   });
-// });
-// })
-// .then(() => console.log('Transaction successfully committed!'))
-// .catch(error => console.warn('Transaction failed', error));
+export const removeTodo = (listId: string, id: string) =>
+  getDb()
+    .collection('users')
+    .doc(getUserId())
+    .collection('lists')
+    .doc(listId)
+    .collection('todos')
+    .doc(id)
+    .delete();
 
 export const uploadTodoImage = async (listId, base64: string) => {
   const imageUrl = await uploadImageAsync(base64);

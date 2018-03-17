@@ -19,6 +19,7 @@ import {
 } from '../../api/lists';
 import { takePhoto, pickExistingPhoto } from '../../api/camera';
 import { shareTodosList } from './todosShare';
+import AddTodo from './AddTodo';
 import Layout from '../Layout';
 import TodoItem from './TodoItem';
 import { ImagePicker } from 'expo';
@@ -104,6 +105,19 @@ export default class TodosScreen extends React.Component<IProps, IState> {
         edit={editable}
         onEdit={edit => this.setState({ editable: edit })}
       >
+        {editable && (
+          <View>
+            <Text>Remove listing ?</Text>
+            <Button
+              onPress={() => {
+                this.unsubscribe && this.unsubscribe();
+                removeList(listId);
+                this.props.navigation.navigate('Lists');
+              }}
+              title="REMOVE"
+            />
+          </View>
+        )}
         <View style={styles.margin}>
           {loading && <ActivityIndicator size="large" />}
           {todos.map((todo, index) => (
@@ -117,29 +131,11 @@ export default class TodosScreen extends React.Component<IProps, IState> {
             />
           ))}
         </View>
+        <AddTodo listId={listId} />
         <View style={styles.margin}>
           <Button title="SHARE" onPress={() => shareTodosList(name, todos)} />
         </View>
-        <View style={styles.margin}>
-          <Button
-            onPress={() => {
-              this.unsubscribe && this.unsubscribe();
-              removeList(listId);
-              this.props.navigation.navigate('Lists');
-            }}
-            title="Delete"
-          />
-        </View>
-        <View style={styles.margin}>
-          {}
-          <Button
-            title={editable ? 'EDIT DONE' : 'EDIT'}
-            onPress={() => this.setState({ editable: !editable })}
-          />
-          <Button
-            title="ADD NEW"
-            onPress={() => addTodo(listId, { text: 'Example Todo' })}
-          />
+        <View style={styles.photos}>
           <Button
             title="PICK PHOTO"
             onPress={() => pickExistingPhoto().then(this.uploadPhoto)}
@@ -157,5 +153,9 @@ const styles = StyleSheet.create({
   },
   todoImage: {
     height: 100
+  },
+  photos: {
+    display: 'flex',
+    flexDirection: 'row'
   }
 });

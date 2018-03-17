@@ -14,7 +14,7 @@ import Checkbox from '../basic/Checkbox';
 import { updateTodo } from '../../api/lists';
 // import { takePhoto, pickExistingPhoto } from '../../api/camera';
 // import { shareTodosList } from './todosShare';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Entypo } from '@expo/vector-icons';
 import { ITodo } from '../../api/lists';
 import ImagePreview from 'react-native-image-preview';
 import { getAllContacts } from '../../api/contacts';
@@ -38,14 +38,13 @@ export default class TodoItem extends React.Component<IProps, IState> {
 
   render() {
     const { todoId, todo, listId, edit, onDelete } = this.props;
-    console.log(todoId, todo.image);
-
     return (
       <View style={styles.item}>
         {edit ? (
           <React.Fragment>
             <MaterialIcons name="delete" size={30} onPress={onDelete} />
             <TextInput value={todo.text} />
+            <Entypo name="check" onPress={() => {}} />
           </React.Fragment>
         ) : (
           <View style={styles.checkWrap}>
