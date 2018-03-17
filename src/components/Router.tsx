@@ -19,7 +19,7 @@ const Header = props => (
     <View style={styles.profile}>
       <Image style={styles.profileImg} source={profileImage} />
       <Text style={styles.profileText}>{getUserEmail()}</Text>
-      <Button title="Log out" onPress={logout} />
+      <Button title="Log out" color="#6a1b9a" onPress={logout} />
     </View>
     <DrawerItems {...props} />
   </ScrollView>

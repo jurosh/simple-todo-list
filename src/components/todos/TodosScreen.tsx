@@ -4,6 +4,7 @@ import {
   Button,
   StyleSheet,
   ActivityIndicator,
+  TouchableNativeFeedback,
   View,
   ScrollView,
   Text
@@ -17,11 +18,12 @@ import {
   uploadTodoImage,
   ITodo
 } from '../../api/lists';
-import { takePhoto, pickExistingPhoto } from '../../api/camera';
+import { Entypo } from '@expo/vector-icons';
 import { shareTodosList } from './todosShare';
 import AddTodo from './AddTodo';
 import Layout from '../Layout';
 import TodoItem from './TodoItem';
+import TodoEditItem from './TodoEditItem';
 import { ImagePicker } from 'expo';
 
 interface ITodoId extends ITodo {
@@ -99,50 +101,54 @@ export default class TodosScreen extends React.Component<IProps, IState> {
     const name = this.getListName();
     const listId = this.getListId();
     return (
-      <Layout
-        heading={name}
-        back={() => this.props.navigation.goBack()}
-        edit={editable}
-        onEdit={edit => this.setState({ editable: edit })}
-      >
-        {editable && (
-          <View>
-            <Text>Remove listing ?</Text>
-            <Button
-              onPress={() => {
-                this.unsubscribe && this.unsubscribe();
-                removeList(listId);
-                this.props.navigation.navigate('Lists');
-              }}
-              title="REMOVE"
-            />
+      <React.Fragment>
+        <Layout
+          heading={name}
+          back={() => this.props.navigation.goBack()}
+          edit={editable}
+          onEdit={edit => this.setState({ editable: edit })}
+          footer={
+            <AddTodo listId={listId} listName={name} uploadPhoto={this.uploadPhoto} />
+          }
+        >
+          {editable && (
+            <View style={styles.removeWrap}>
+              <Text style={styles.removeText}>Remove listing ?</Text>
+              <Button
+                onPress={() => {
+                  this.unsubscribe && this.unsubscribe();
+                  removeList(listId);
+                  this.props.navigation.navigate('Lists');
+                }}
+                title="REMOVE"
+                color="#9c4dcc"
+              />
+            </View>
+          )}
+          <View style={styles.margin}>
+            {loading && <ActivityIndicator size="large" />}
+            {todos.map((todo, index) => (
+              <View style={styles.item} key={`${todo.text}_${index}`}>
+                {editable ? (
+                  <TodoEditItem
+                    onDelete={() => removeTodo(listId, todo.id)}
+                    todo={todo}
+                    todoId={todo.id}
+                    listId={listId}
+                  />
+                ) : (
+                  <TodoItem todo={todo} todoId={todo.id} listId={listId} />
+                )}
+              </View>
+            ))}
           </View>
-        )}
-        <View style={styles.margin}>
-          {loading && <ActivityIndicator size="large" />}
-          {todos.map((todo, index) => (
-            <TodoItem
-              key={`${todo.text}_${index}`}
-              onDelete={() => removeTodo(listId, todo.id)}
-              edit={editable}
-              todo={todo}
-              todoId={todo.id}
-              listId={listId}
-            />
-          ))}
-        </View>
-        <AddTodo listId={listId} />
-        <View style={styles.margin}>
-          <Button title="SHARE" onPress={() => shareTodosList(name, todos)} />
-        </View>
-        <View style={styles.photos}>
-          <Button
-            title="PICK PHOTO"
-            onPress={() => pickExistingPhoto().then(this.uploadPhoto)}
-          />
-          <Button title="TAKE PHOTO" onPress={() => takePhoto().then(this.uploadPhoto)} />
-        </View>
-      </Layout>
+        </Layout>
+        <TouchableNativeFeedback onPress={() => shareTodosList(name, todos)}>
+          <View style={styles.share}>
+            <Entypo name="share" size={40} color="white" />
+          </View>
+        </TouchableNativeFeedback>
+      </React.Fragment>
     );
   }
 }
@@ -154,8 +160,31 @@ const styles = StyleSheet.create({
   todoImage: {
     height: 100
   },
-  photos: {
-    display: 'flex',
-    flexDirection: 'row'
+  removeWrap: {
+    margin: 20,
+    padding: 20,
+    borderRadius: 3,
+    backgroundColor: 'white'
+  },
+  removeText: {
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  item: {
+    marginBottom: 1,
+    backgroundColor: 'white',
+    borderRadius: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 20
+  },
+  share: {
+    borderRadius: 50,
+    width: 55,
+    height: 55,
+    padding: 5,
+    position: 'absolute',
+    backgroundColor: '#38006b',
+    bottom: 10,
+    right: 10
   }
 });

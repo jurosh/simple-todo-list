@@ -16,6 +16,8 @@ Keyboard: https://facebook.github.io/react-native/docs/keyboardavoidingview.html
 
 Icons: https://expo.github.io/vector-icons/
 
+Colors: https://material.io/color/#!/?view.left=0&view.right=0&primary.color=FFEE58&secondary.color=6A1B9A
+
 ## Firebase Rest API
 
 Auth

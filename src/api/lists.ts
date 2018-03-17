@@ -44,6 +44,7 @@ export interface IList {
 export interface ITodo {
   text: string;
   image?: string;
+  contactName?: string;
   check?: boolean;
 }
 
@@ -102,5 +103,12 @@ export const uploadTodoImage = async (listId, base64: string) => {
   return addTodo(listId, {
     text: 'Image',
     image: imageUrl
+  });
+};
+
+export const addTodoContact = async (listId, { name }) => {
+  return addTodo(listId, {
+    text: 'Contact',
+    contactName: name
   });
 };

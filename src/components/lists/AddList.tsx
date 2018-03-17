@@ -60,7 +60,7 @@ class AddList extends React.Component<IProps & NavigationInjectedProps> {
         {loading ? (
           <ActivityIndicator size="large" />
         ) : (
-          <Button title="ADD NEW" onPress={this.onAdd} />
+          <Button title="ADD NEW" onPress={this.onAdd} color="#6a1b9a" />
         )}
       </View>
     );

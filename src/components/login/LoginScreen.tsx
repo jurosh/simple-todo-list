@@ -44,6 +44,7 @@ class LoginScreen extends React.Component<{}, IState> {
     return (
       <ScrollView style={styles.scroll} overScrollMode="always">
         <KeyboardAvoidingView behavior="padding">
+          <View style={styles.topLine} />
           <View style={styles.wrap}>
             <Image source={profileImage} />
             <View style={styles.content}>
@@ -67,10 +68,10 @@ class LoginScreen extends React.Component<{}, IState> {
                   <ActivityIndicator size="large" />
                 ) : (
                   <React.Fragment>
-                    <Button title="Login" onPress={this.login} />
+                    <Button title="Login" onPress={this.login} color="#6a1b9a" />
                     <View style={styles.registerWrap}>
                       <Text>OR</Text>
-                      <Button color="#82B1FF" title="Register" onPress={this.register} />
+                      <Button color="#9c4dcc" title="Register" onPress={this.register} />
                     </View>
                   </React.Fragment>
                 )}
@@ -85,8 +86,11 @@ class LoginScreen extends React.Component<{}, IState> {
 
 const styles = StyleSheet.create({
   scroll: {
-    marginTop: 20,
     backgroundColor: '#FFFFE0'
+  },
+  topLine: {
+    backgroundColor: '#c9bc1f',
+    height: 20
   },
   wrap: {
     alignItems: 'center'

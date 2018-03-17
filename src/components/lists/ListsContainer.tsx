@@ -26,11 +26,11 @@ interface IProps {
 }
 
 const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) => (
-  <View>
+  <View style={styles.wrap}>
     {lists.length === 0 && loading && <ActivityIndicator size="large" />}
     {lists.filter(list => list.name.includes(search)).map(list => (
       <TouchableNativeFeedback
-        background={TouchableNativeFeedback.Ripple('yellow')}
+        background={TouchableNativeFeedback.Ripple('#38006b')}
         key={list.id}
         onPress={() => onItemClick(list)}
       >
@@ -44,13 +44,15 @@ const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) =>
 );
 
 const styles = StyleSheet.create({
+  wrap: {
+    minHeight: 100
+  },
   item: {
-    marginVertical: 10,
-    backgroundColor: '#FFFFE0',
-    borderColor: '#FFEA00',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
+    marginBottom: 1,
+    backgroundColor: 'white',
+    borderRadius: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
     display: 'flex',
     flexDirection: 'row'
   },
@@ -59,7 +61,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   count: {
-    backgroundColor: '#FFEA00',
+    backgroundColor: '#9c4dcc',
+    color: 'white',
     borderRadius: 100,
     width: 50,
     height: 40,

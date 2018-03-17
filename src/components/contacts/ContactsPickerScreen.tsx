@@ -10,11 +10,13 @@ import {
   Text,
   TextInput
 } from 'react-native';
-import { NavigationInjectedProps } from 'react-navigation';
+import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import Layout from '../Layout';
+import IconInput from '../basic/IconInput';
 import { getAllContacts } from '../../api/contacts';
 import { addContacts, startAddContacts } from '../../redux/contacts';
+import { addTodoContact, ITodo } from '../../api/lists';
 
 interface IProps {
   list: { name: string; id: string; firstName: string }[];
@@ -28,7 +30,12 @@ interface IState {
   search: string;
 }
 
-class ContactsPickerScreen extends React.Component<IProps, IState> {
+const DISPLAYED = 40;
+
+class ContactsPickerScreen extends React.Component<
+  IProps & NavigationInjectedProps,
+  IState
+> {
   state: IState = {
     search: ''
   };
@@ -50,41 +57,55 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
     // Stop loading
   }
 
+  onSelect = (name: string) => {
+    const params = (this.props.navigation.state as any).params;
+    addTodoContact(params.listId, { name });
+    this.props.navigation.navigate('Todos', {
+      listId: params.listId,
+      listName: params.listName
+    });
+  };
+
   render() {
     const { search } = this.state;
     const { list, total, loading } = this.props;
+    const nonDisplayedCount = list.length > DISPLAYED ? list.length + 1 - DISPLAYED : 0;
     return (
       <Layout heading="Pick Contact">
-        <TextInput
-          value={search}
-          onChangeText={text => this.setState({ search: text.toLowerCase() })}
+        <IconInput
+          iconType="material"
+          icon="search"
+          text={search}
+          onChange={text => this.setState({ search: text.toLowerCase() })}
         />
         {loading && (
           <View style={styles.loader}>
             <ActivityIndicator />
           </View>
         )}
-        <Text style={styles.loaderText}>
-          {list.length} of {total}
+        <Text style={styles.count}>
+          {list.length < total && `of ${list.length}`} {total} contacts
         </Text>
         {list
           .filter(
             contact =>
               contact && contact.name && contact.name.toLowerCase().includes(search)
           )
+          .slice(0, DISPLAYED)
           .map((contact, index) => (
             <TouchableNativeFeedback
               key={index} /* TODO: contact.id */
               background={TouchableNativeFeedback.Ripple('gray')}
-              onPress={() => {
-                'TODO';
-              }}
+              onPress={() => this.onSelect(contact.name || contact.firstName)}
             >
               <View style={styles.contact}>
                 <Text>{contact.name}</Text>
               </View>
             </TouchableNativeFeedback>
           ))}
+        {nonDisplayedCount > 0 && (
+          <Text style={styles.more}>And {nonDisplayedCount} more...</Text>
+        )}
       </Layout>
     );
   }
@@ -94,18 +115,22 @@ const styles = StyleSheet.create({
   loader: {
     margin: 10
   },
-  loaderText: {
-    textAlign: 'center'
+  count: {
+    textAlign: 'center',
+    margin: 10
   },
   contact: {
-    marginVertical: 10,
-    backgroundColor: '#FFFFE0',
-    borderColor: '#FFEA00',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
+    marginBottom: 1,
+    backgroundColor: 'white',
+    borderRadius: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
     display: 'flex',
     flexDirection: 'row'
+  },
+  more: {
+    margin: 20,
+    textAlign: 'center'
   }
 });
 
@@ -115,10 +140,7 @@ const mapStateToProps = state => ({
   loading: state.contacts.meta.loading
 });
 
-const mapDispatchToProps = dispatch => ({
-  // onClean() {
-  //   dispatch(cleanContacts());
-  // },
+const mapDispatchToProps = (dispatch, ownProps) => ({
   onStartFetch() {
     dispatch(startAddContacts());
   },
@@ -127,4 +149,6 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsPickerScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withNavigation(ContactsPickerScreen)
+);

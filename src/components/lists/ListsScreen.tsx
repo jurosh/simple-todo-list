@@ -58,35 +58,35 @@ class ListsScreen extends React.Component<IProps, IState> {
   render() {
     const { search, loading } = this.state;
     return (
-      <Layout heading="Todos Lists">
+      <Layout
+        heading="Todos Lists"
+        footer={
+          <AddList onAdding={() => this.listsUnsubscribe && this.listsUnsubscribe()} />
+        }
+      >
         <IconInput
           iconType="material"
           icon="search"
           text={search}
           onChange={text => this.setState({ search: text })}
         />
-        <View style={styles.listings}>
-          <ListsContainer
-            loading={loading}
-            search={search}
-            onItemClick={list =>
-              this.props.navigation.navigate('Todos', {
-                listId: list.id,
-                listName: list.name
-              })
-            }
-          />
-        </View>
-        <AddList onAdding={() => this.listsUnsubscribe && this.listsUnsubscribe()} />
+        <ListsContainer
+          loading={loading}
+          search={search}
+          onItemClick={list =>
+            this.props.navigation.navigate('Todos', {
+              listId: list.id,
+              listName: list.name
+            })
+          }
+        />
       </Layout>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  listings: {
-    minHeight: 100
-  }
+  //
 });
 
 const mapDispatchToProps = dispatch => ({
