@@ -34,6 +34,16 @@ export const createList = (name: string) =>
       count: 0
     } as IList);
 
+export const removeTodo = (listId: string, id: string) =>
+  getDb()
+    .collection('users')
+    .doc(getUserId())
+    .collection('lists')
+    .doc(listId)
+    .collection('todos')
+    .doc(id)
+    .delete();
+
 export interface IList {
   name: string;
   count: number;

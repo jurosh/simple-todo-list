@@ -21,11 +21,13 @@ import { ITodoList, storeLists } from '../../redux/lists';
 interface IProps {
   onItemClick: (list: ITodoList) => void;
   lists: ITodoList[];
+  loading: boolean;
   search?: string;
 }
 
-const ListsContainer = ({ lists, search = '', onItemClick }: IProps) => (
+const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) => (
   <View>
+    {lists.length === 0 && loading && <ActivityIndicator size="large" />}
     {lists.filter(list => list.name.includes(search)).map(list => (
       <TouchableNativeFeedback
         background={TouchableNativeFeedback.Ripple('yellow')}

@@ -66,12 +66,8 @@ class ListsScreen extends React.Component<IProps, IState> {
           onChange={text => this.setState({ search: text })}
         />
         <View style={styles.listings}>
-          {loading && (
-            <View style={styles.loader}>
-              <ActivityIndicator size="large" />
-            </View>
-          )}
           <ListsContainer
+            loading={loading}
             search={search}
             onItemClick={list =>
               this.props.navigation.navigate('Todos', {
@@ -89,18 +85,7 @@ class ListsScreen extends React.Component<IProps, IState> {
 
 const styles = StyleSheet.create({
   listings: {
-    position: 'relative',
     minHeight: 100
-  },
-  loader: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 50,
-    zIndex: 99,
-    justifyContent: 'center',
-    alignItems: 'center'
   }
 });
 

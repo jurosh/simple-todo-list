@@ -7,17 +7,21 @@ import {
   View,
   TouchableNativeFeedback,
   ScrollView,
-  Text
+  Text,
+  TextInput
 } from 'react-native';
 import Checkbox from '../basic/Checkbox';
 import { updateTodo } from '../../api/lists';
 // import { takePhoto, pickExistingPhoto } from '../../api/camera';
 // import { shareTodosList } from './todosShare';
+import { MaterialIcons } from '@expo/vector-icons';
 import { ITodo } from '../../api/lists';
 import ImagePreview from 'react-native-image-preview';
 import { getAllContacts } from '../../api/contacts';
 
 interface IProps {
+  edit: boolean;
+  onDelete: () => void;
   listId: string;
   todoId: string;
   todo: ITodo;
@@ -31,19 +35,27 @@ export default class TodoItem extends React.Component<IProps, IState> {
   state: IState = {
     imagePreview: false
   };
+
   render() {
-    const { todoId, todo, listId } = this.props;
+    const { todoId, todo, listId, edit, onDelete } = this.props;
     console.log(todoId, todo.image);
 
     return (
       <View style={styles.item}>
-        <View style={styles.checkWrap}>
-          <Checkbox
-            checked={!!todo.check}
-            onClick={() => updateTodo(listId, todoId, { ...todo, check: !todo.check })}
-            rightText={todo.text}
-          />
-        </View>
+        {edit ? (
+          <React.Fragment>
+            <MaterialIcons name="delete" size={30} onPress={onDelete} />
+            <TextInput value={todo.text} />
+          </React.Fragment>
+        ) : (
+          <View style={styles.checkWrap}>
+            <Checkbox
+              checked={!!todo.check}
+              onClick={() => updateTodo(listId, todoId, { ...todo, check: !todo.check })}
+              rightText={todo.text}
+            />
+          </View>
+        )}
         {todo.image && (
           <View style={styles.imageWrap}>
             <TouchableNativeFeedback

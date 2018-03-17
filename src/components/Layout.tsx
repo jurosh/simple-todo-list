@@ -17,10 +17,12 @@ import backImage from './images/back.png';
 interface IPros extends NavigationInjectedProps {
   heading: string;
   children: any;
+  edit?: boolean;
+  onEdit?: (edit: boolean) => void;
   back: () => void;
 }
 
-const Layout = ({ children, heading, back, navigation }: IPros) => (
+const Layout = ({ children, heading, back, edit, onEdit, navigation }: IPros) => (
   <ScrollView>
     <KeyboardAvoidingView behavior="padding">
       <View style={styles.wrap}>
@@ -32,6 +34,14 @@ const Layout = ({ children, heading, back, navigation }: IPros) => (
             <Entypo name="menu" size={40} style={styles.image} />
           </TouchableHighlight>
           <Text style={styles.heading}>{heading}</Text>
+          {onEdit && (
+            <TouchableHighlight
+              style={styles.imageClickable}
+              onPress={() => onEdit(!edit)}
+            >
+              <Entypo name={edit ? 'check' : 'edit'} size={40} style={styles.image} />
+            </TouchableHighlight>
+          )}
           {back && (
             <TouchableHighlight style={styles.imageClickable} onPress={back}>
               <Entypo name="back" size={40} style={styles.image} />

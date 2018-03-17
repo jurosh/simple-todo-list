@@ -9,7 +9,14 @@ import {
   Text
 } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
-import { queryTodos, addTodo, removeList, uploadTodoImage, ITodo } from '../../api/lists';
+import {
+  queryTodos,
+  addTodo,
+  removeTodo,
+  removeList,
+  uploadTodoImage,
+  ITodo
+} from '../../api/lists';
 import { takePhoto, pickExistingPhoto } from '../../api/camera';
 import { shareTodosList } from './todosShare';
 import Layout from '../Layout';
@@ -91,12 +98,19 @@ export default class TodosScreen extends React.Component<IProps, IState> {
     const name = this.getListName();
     const listId = this.getListId();
     return (
-      <Layout heading={name} back={() => this.props.navigation.goBack()}>
+      <Layout
+        heading={name}
+        back={() => this.props.navigation.goBack()}
+        edit={editable}
+        onEdit={edit => this.setState({ editable: edit })}
+      >
         <View style={styles.margin}>
           {loading && <ActivityIndicator size="large" />}
           {todos.map((todo, index) => (
             <TodoItem
               key={`${todo.text}_${index}`}
+              onDelete={() => removeTodo(listId, todo.id)}
+              edit={editable}
               todo={todo}
               todoId={todo.id}
               listId={listId}
