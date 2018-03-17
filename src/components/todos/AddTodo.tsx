@@ -20,7 +20,6 @@ import IconInput from '../basic/IconInput';
 interface IProps {
   uploadPhoto: (photo: any) => void;
   listId: string;
-  listName: string;
 }
 
 interface IState {
@@ -48,7 +47,7 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
 
   render() {
     const { text, loading } = this.state;
-    const { listId, navigation, listName, uploadPhoto } = this.props;
+    const { listId, navigation, uploadPhoto } = this.props;
     return (
       <View style={styles.wrap}>
         <IconInput
@@ -84,12 +83,7 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
           </TouchableNativeFeedback>
           <TouchableNativeFeedback
             style={styles.actionWrap}
-            onPress={() =>
-              navigation.navigate('ContactsPicker', {
-                listId,
-                listName
-              })
-            }
+            onPress={() => navigation.navigate('ContactsPicker', { listId })}
           >
             <View style={styles.action}>
               <MaterialIcons name="contacts" size={40} color="white" />

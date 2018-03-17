@@ -11,6 +11,13 @@ export const queryTodos = listId =>
     .collection('todos')
     .orderBy('createdAt');
 
+export const queryList = listId =>
+  getDb()
+    .collection('users')
+    .doc(getUserId())
+    .collection('lists')
+    .doc(listId);
+
 export const queryLists = () =>
   getDb()
     .collection('users')
@@ -35,6 +42,14 @@ export const createList = (name: string) =>
       count: 0,
       createdAt: new Date()
     } as IList);
+
+export const updateList = (listId, { name }) =>
+  getDb()
+    .collection('users')
+    .doc(getUserId())
+    .collection('lists')
+    .doc(listId)
+    .update({ name });
 
 export interface IList {
   name: string;

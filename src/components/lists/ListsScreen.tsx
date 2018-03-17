@@ -74,10 +74,7 @@ class ListsScreen extends React.Component<IProps, IState> {
           loading={loading}
           search={search}
           onItemClick={list =>
-            this.props.navigation.navigate('Todos', {
-              listId: list.id,
-              listName: list.name
-            })
+            this.props.navigation.navigate('Todos', { listId: list.id })
           }
         />
       </Layout>

@@ -60,10 +60,7 @@ class ContactsPickerScreen extends React.Component<
   onSelect = (name: string) => {
     const params = (this.props.navigation.state as any).params;
     addTodoContact(params.listId, { name });
-    this.props.navigation.navigate('Todos', {
-      listId: params.listId,
-      listName: params.listName
-    });
+    this.props.navigation.navigate('Todos', { listId: params.listId });
   };
 
   render() {
