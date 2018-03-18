@@ -1,19 +1,12 @@
 import * as React from 'react';
 import {
-  Image,
-  Button,
   StyleSheet,
   ActivityIndicator,
   TouchableNativeFeedback,
-  View,
-  ScrollView,
-  Text,
-  TextInput
+  View
 } from 'react-native';
-import { NavigationInjectedProps } from 'react-navigation';
 import {
   queryTodos,
-  addTodo,
   queryList,
   removeTodo,
   removeList,
@@ -107,6 +100,17 @@ export default class TodosScreen extends React.Component<IProps, IState> {
     uploadTodoImage(this.getListId(), (image as any).base64);
   };
 
+  handleDelete = () => {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+    if (this.unsubscribeList) {
+      this.unsubscribeList();
+    }
+    removeList(this.getListId());
+    this.props.navigation.navigate('Lists');
+  };
+
   render() {
     const { todos, listName, editable, loading } = this.state;
     const listId = this.getListId();
@@ -139,14 +143,7 @@ export default class TodosScreen extends React.Component<IProps, IState> {
           </View>
         </Layout>
         {editable ? (
-          <TouchableNativeFeedback
-            onPress={() => {
-              this.unsubscribe && this.unsubscribe();
-              this.unsubscribeList && this.unsubscribeList();
-              removeList(listId);
-              this.props.navigation.navigate('Lists');
-            }}
-          >
+          <TouchableNativeFeedback onPress={this.handleDelete}>
             <View style={styles.delete}>
               <MaterialIcons name="delete" size={45} color="white" />
             </View>

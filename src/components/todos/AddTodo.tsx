@@ -1,20 +1,17 @@
 import * as React from 'react';
 import {
-  Image,
   Button,
   StyleSheet,
   ActivityIndicator,
   TouchableNativeFeedback,
-  TextInput,
   View,
-  ScrollView,
   Alert,
   Text
 } from 'react-native';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import { takePhoto, pickExistingPhoto } from '../../api/camera';
-import { addTodo, ITodo } from '../../api/lists';
+import { addTodo } from '../../api/lists';
 import IconInput from '../basic/IconInput';
 
 interface IProps {
@@ -40,21 +37,29 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
       return;
     }
     this.setState({ loading: true });
-    addTodo(this.props.listId, { text }).then(data =>
+    addTodo(this.props.listId, { text }).then(() =>
       this.setState({ loading: false, text: '' })
     );
   };
 
+  handleType = text => this.setState({ text });
+
+  handlePickPhoto = () => pickExistingPhoto().then(this.props.uploadPhoto);
+
+  handleTakePhoto = () => takePhoto().then(this.props.uploadPhoto);
+
+  handleAddContact = () =>
+    this.props.navigation.navigate('ContactsPicker', { listId: this.props.listId });
+
   render() {
     const { text, loading } = this.state;
-    const { listId, navigation, uploadPhoto } = this.props;
     return (
       <View style={styles.wrap}>
         <IconInput
           iconType="entypo"
           icon="new-message"
           text={text}
-          onChange={text => this.setState({ text })}
+          onChange={this.handleType}
         />
         {loading ? (
           <ActivityIndicator size="large" />
@@ -65,7 +70,7 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
         <View style={styles.photos}>
           <TouchableNativeFeedback
             style={styles.actionWrap}
-            onPress={() => pickExistingPhoto().then(uploadPhoto)}
+            onPress={this.handlePickPhoto}
           >
             <View style={styles.action}>
               <Entypo name="camera" size={40} color="white" />
@@ -74,7 +79,7 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
           </TouchableNativeFeedback>
           <TouchableNativeFeedback
             style={styles.actionWrap}
-            onPress={() => takePhoto().then(uploadPhoto)}
+            onPress={this.handleTakePhoto}
           >
             <View style={styles.action}>
               <Entypo name="images" size={40} color="white" />
@@ -83,7 +88,7 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
           </TouchableNativeFeedback>
           <TouchableNativeFeedback
             style={styles.actionWrap}
-            onPress={() => navigation.navigate('ContactsPicker', { listId })}
+            onPress={this.handleAddContact}
           >
             <View style={styles.action}>
               <MaterialIcons name="contacts" size={40} color="white" />

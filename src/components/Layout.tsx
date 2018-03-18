@@ -1,8 +1,6 @@
 import * as React from 'react';
 import {
   TouchableHighlight,
-  Image,
-  Button,
   StyleSheet,
   View,
   KeyboardAvoidingView,
@@ -11,8 +9,6 @@ import {
 } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
-import hamburgerImage from './images/hamburger.png';
-import backImage from './images/back.png';
 
 interface IPros extends NavigationInjectedProps {
   heading: string;

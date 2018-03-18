@@ -30,11 +30,11 @@ https://firebase.google.com/docs/database/rest/auth
 
 # TODOS
 
-* tslint
+* DONE tslint
 * code cleanup
 * backend restrictions, rules
-* remember login
-  ...
+* write few unit tests
+* OPTIONAL remember login
 
 # OFFICIAL REQUIREMENTS
 

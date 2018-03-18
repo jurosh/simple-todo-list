@@ -58,7 +58,7 @@ class LoginScreen extends React.Component<{}, IState> {
               <Text style={styles.label}>Password</Text>
               <TextInput
                 style={styles.input}
-                secureTextEntry
+                secureTextEntry={true}
                 onChangeText={text => this.setState({ password: text })}
                 value={password}
               />

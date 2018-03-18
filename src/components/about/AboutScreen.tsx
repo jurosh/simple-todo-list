@@ -1,20 +1,9 @@
 import * as React from 'react';
-import {
-  Image,
-  Button,
-  StyleSheet,
-  View,
-  ScrollView,
-  Text,
-  TextInput
-} from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import Layout from '../Layout';
 
-interface IProps extends NavigationInjectedProps {}
-interface IState {}
-
-export default class ListsScreen extends React.Component<IProps, IState> {
+export default class ListsScreen extends React.Component<NavigationInjectedProps> {
   render() {
     return (
       <Layout heading="About">

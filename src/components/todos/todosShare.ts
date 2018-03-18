@@ -1,5 +1,5 @@
 import { share } from '../../api/share';
-import { ITodo } from './types';
+import { ITodo } from '../../api/lists';
 
 export const shareTodosList = (name: string, list: ITodo[]) => {
   const content = `Todos "${name}"

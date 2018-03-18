@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import FireAuth from 'react-native-firebase-auth';
+// TODO: ? treba import FireAuth from 'react-native-firebase-auth';
 import 'firebase/firestore'; // Required for side-effects
 
 // https://firebase.google.com/docs/firestore/quickstart
@@ -13,7 +13,7 @@ const config = {
 };
 
 let globalFirestoreDb: firebase.firestore.Firestore | null = null;
-let globalOnLogout = () => {};
+let globalOnLogout = () => console.error('[Api] logout, but missing callback');
 let globalCredential: firebase.UserInfo | null = null;
 
 export const getUserEmail = () => (globalCredential ? globalCredential.email : '');
@@ -22,7 +22,7 @@ export const getUserId = () => {
   if (globalCredential) {
     return globalCredential.uid;
   }
-  throw 'Missing user uuid';
+  throw new Error('Missing user uuid');
 };
 
 export const getUserPhoto = () => (globalCredential ? globalCredential.photoURL : null);

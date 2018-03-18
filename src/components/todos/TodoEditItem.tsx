@@ -1,20 +1,8 @@
 import * as React from 'react';
-import {
-  Image,
-  Switch,
-  Button,
-  StyleSheet,
-  View,
-  TouchableNativeFeedback,
-  ScrollView,
-  Text,
-  TextInput
-} from 'react-native';
-import Checkbox from '../basic/Checkbox';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { updateTodo, ITodo } from '../../api/lists';
-import { MaterialIcons, Entypo } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import ImageWithPreview from '../basic/ImageWithPreview';
-import ImagePreview from 'react-native-image-preview';
 
 interface IProps {
   onDelete: () => void;
@@ -32,6 +20,8 @@ export default class TodoEditItem extends React.Component<IProps, IState> {
     editText: this.props.todo.text
   };
 
+  onChangeText = text => this.setState({ editText: text });
+
   save = () => {
     const { todoId, listId } = this.props;
     updateTodo(listId, todoId, {
@@ -40,7 +30,7 @@ export default class TodoEditItem extends React.Component<IProps, IState> {
   };
 
   render() {
-    const { todoId, todo, listId, onDelete } = this.props;
+    const { todo, onDelete } = this.props;
     const { editText } = this.state;
     return (
       <View style={styles.item}>
@@ -49,7 +39,7 @@ export default class TodoEditItem extends React.Component<IProps, IState> {
           <TextInput
             style={styles.input}
             value={editText || todo.text}
-            onChangeText={text => this.setState({ editText: text })}
+            onChangeText={this.onChangeText}
             onEndEditing={this.save}
           />
           {!!editText &&

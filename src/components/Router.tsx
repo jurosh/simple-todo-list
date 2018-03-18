@@ -9,19 +9,11 @@ import {
   Easing,
   Animated
 } from 'react-native';
-import {
-  DrawerNavigator,
-  DrawerItems,
-  addNavigationHelpers,
-  NavigationInjectedProps,
-  StackNavigator
-} from 'react-navigation';
-import CardStackStyleInterpolator from 'react-navigation';
+import { DrawerNavigator, DrawerItems, StackNavigator } from 'react-navigation';
 import ListsScreen from './lists/ListsScreen';
 import TodosScreen from './todos/TodosScreen';
 import AboutScreen from './about/AboutScreen';
 import profileImage from './images/profile.png';
-import hamburgerImage from './images/hamburger.png';
 import { logout, getUserEmail } from '../api';
 import ContactsPickerScreen from './contacts/ContactsPickerScreen';
 
@@ -77,7 +69,6 @@ const transitionConfig = () => ({
   }
 });
 
-// const Router = DrawerNavigator(
 const StackRouter = StackNavigator(
   {
     Lists: { screen: ListsScreen },

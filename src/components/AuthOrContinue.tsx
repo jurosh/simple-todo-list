@@ -1,9 +1,6 @@
 import * as React from 'react';
-import { Image, Button, StyleSheet, View, ScrollView, Text } from 'react-native';
-import { DrawerNavigator, DrawerItems, addNavigationHelpers } from 'react-navigation';
 import LoginScreen from './login/LoginScreen';
 import Router from './Router';
-import profileImage from './images/profile-small.png';
 import { initializeAndWaitForAuth } from '../api';
 
 export default class LoginOrContinue extends React.Component {

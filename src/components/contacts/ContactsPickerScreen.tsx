@@ -1,25 +1,21 @@
 import * as React from 'react';
 import {
-  Image,
-  Button,
   StyleSheet,
   View,
-  ScrollView,
   ActivityIndicator,
   TouchableNativeFeedback,
-  Text,
-  TextInput
+  Text
 } from 'react-native';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import Layout from '../Layout';
 import IconInput from '../basic/IconInput';
 import { getAllContacts } from '../../api/contacts';
-import { addContacts, startAddContacts } from '../../redux/contacts';
-import { addTodoContact, ITodo } from '../../api/lists';
+import { addContacts, startAddContacts, IContact } from '../../redux/contacts';
+import { addTodoContact } from '../../api/lists';
 
 interface IProps {
-  list: { name: string; id: string; firstName: string }[];
+  list: IContact[];
   loading: boolean;
   total: number;
   onStartFetch: () => void;
@@ -30,7 +26,7 @@ interface IState {
   search: string;
 }
 
-const DISPLAYED = 40;
+const DISPLAYED_COUNT = 40;
 
 class ContactsPickerScreen extends React.Component<
   IProps & NavigationInjectedProps,
@@ -39,6 +35,8 @@ class ContactsPickerScreen extends React.Component<
   state: IState = {
     search: ''
   };
+
+  handleSearchType = text => this.setState({ search: text.toLowerCase() });
 
   componentDidMount() {
     if (
@@ -54,8 +52,12 @@ class ContactsPickerScreen extends React.Component<
   }
 
   componentWillUnmount() {
-    // Stop loading
+    // TODO: Stop loading
   }
+
+  handleGoBack = () => {
+    this.props.navigation.goBack();
+  };
 
   onSelect = (name: string) => {
     const params = (this.props.navigation.state as any).params;
@@ -66,14 +68,20 @@ class ContactsPickerScreen extends React.Component<
   render() {
     const { search } = this.state;
     const { list, total, loading } = this.props;
-    const nonDisplayedCount = list.length > DISPLAYED ? list.length + 1 - DISPLAYED : 0;
+    const filteredList = list.filter(
+      contact => contact && contact.name && contact.name.toLowerCase().includes(search)
+    );
+    const nonDisplayedCount =
+      filteredList.length > DISPLAYED_COUNT
+        ? filteredList.length + 1 - DISPLAYED_COUNT
+        : 0;
     return (
-      <Layout heading="Pick Contact" back={() => this.props.navigation.goBack()}>
+      <Layout heading="Pick Contact" back={this.handleGoBack}>
         <IconInput
           iconType="material"
           icon="search"
           text={search}
-          onChange={text => this.setState({ search: text.toLowerCase() })}
+          onChange={this.handleSearchType}
         />
         {loading && (
           <View style={styles.loader}>
@@ -83,23 +91,17 @@ class ContactsPickerScreen extends React.Component<
         <Text style={styles.count}>
           {list.length < total && `of ${list.length}`} {total} contacts
         </Text>
-        {list
-          .filter(
-            contact =>
-              contact && contact.name && contact.name.toLowerCase().includes(search)
-          )
-          .slice(0, DISPLAYED)
-          .map((contact, index) => (
-            <TouchableNativeFeedback
-              key={index} /* TODO: contact.id */
-              background={TouchableNativeFeedback.Ripple('gray')}
-              onPress={() => this.onSelect(contact.name || contact.firstName)}
-            >
-              <View style={styles.contact}>
-                <Text>{contact.name}</Text>
-              </View>
-            </TouchableNativeFeedback>
-          ))}
+        {filteredList.slice(0, DISPLAYED_COUNT).map((contact, index) => (
+          <TouchableNativeFeedback
+            key={index} /* TODO: contact.id */
+            background={TouchableNativeFeedback.Ripple('gray')}
+            onPress={() => this.onSelect(contact.name || contact.firstName)}
+          >
+            <View style={styles.contact}>
+              <Text>{contact.name}</Text>
+            </View>
+          </TouchableNativeFeedback>
+        ))}
         {nonDisplayedCount > 0 && (
           <Text style={styles.more}>And {nonDisplayedCount} more...</Text>
         )}
@@ -137,7 +139,7 @@ const mapStateToProps = state => ({
   loading: state.contacts.meta.loading
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
   onStartFetch() {
     dispatch(startAddContacts());
   },

@@ -9,7 +9,6 @@ interface IProps {
   onChange: (text: string) => void;
 }
 
-// TODO: internal text performance
 const IconInput = ({ text, iconType, icon, onChange }: IProps) => (
   <View style={styles.wrap}>
     {iconType === 'entypo' ? (

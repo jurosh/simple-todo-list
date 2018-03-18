@@ -1,9 +1,16 @@
 {
   "expo": {
+    "name": "SimpleTodoList",
+    "slug": "simple-todo-list",
     "sdkVersion": "25.0.0",
     "packagerOpts": {
       "sourceExts": ["ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
+    },
+    "android": {
+      "package": "com.jurosh.simpletodolist",
+      "versionCode": 1,
+      "permissions": []
     }
   }
 }

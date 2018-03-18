@@ -1,21 +1,14 @@
 import * as React from 'react';
 import {
-  Image,
   Button,
   StyleSheet,
   ActivityIndicator,
-  TouchableNativeFeedback,
   TextInput,
   View,
-  ScrollView,
   Alert,
   Text
 } from 'react-native';
-import { withNavigation, NavigationInjectedProps } from 'react-navigation';
-import { Entypo, MaterialIcons } from '@expo/vector-icons';
-import { takePhoto, pickExistingPhoto } from '../../api/camera';
-import { updateList, ITodo } from '../../api/lists';
-import IconInput from '../basic/IconInput';
+import { updateList } from '../../api/lists';
 
 interface IProps {
   listId: string;
@@ -32,6 +25,8 @@ class RenameList extends React.Component<IProps> {
     text: this.props.listName,
     loading: false
   };
+
+  onChangeText = text => this.setState({ text });
 
   onUpdate = () => {
     const { text } = this.state;
@@ -50,7 +45,7 @@ class RenameList extends React.Component<IProps> {
     return (
       <View style={styles.wrap}>
         <Text style={styles.text}>Rename listing ?</Text>
-        <TextInput value={text} onChangeText={text => this.setState({ text })} />
+        <TextInput value={text} onChangeText={this.onChangeText} />
         {loading ? (
           <ActivityIndicator size="large" />
         ) : (

@@ -1,15 +1,5 @@
 import * as React from 'react';
-import {
-  Image,
-  Button,
-  StyleSheet,
-  ActivityIndicator,
-  TextInput,
-  View,
-  ScrollView,
-  Alert,
-  Text
-} from 'react-native';
+import { Button, StyleSheet, ActivityIndicator, View, Alert } from 'react-native';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { createList } from '../../api/lists';
 import IconInput from '../basic/IconInput';
@@ -23,29 +13,31 @@ interface IState {
   name: string;
 }
 
-class AddList extends React.Component<IProps & NavigationInjectedProps> {
-  state = {
+class AddList extends React.Component<IProps & NavigationInjectedProps, IState> {
+  state: IState = {
     loading: false,
     name: ''
   };
 
   onAdd = () => {
     const { name } = this.state;
+    const { navigation, onAdding } = this.props;
     if (!name) {
       Alert.alert('Enter new list name');
       return;
     }
     this.setState({ loading: true });
-    this.props.onAdding();
-    createList(name).then(data => {
-      // this.setState({ name: '' });
-      this.props.navigation.navigate('Todos', {
+    onAdding();
+    createList(name).then(data =>
+      navigation.navigate('Todos', {
         listId: data.id,
         listName: name,
         startAsEditable: true
-      });
-    });
+      })
+    );
   };
+
+  handleNewMessage = text => this.setState({ name: text });
 
   render() {
     const { name, loading } = this.state;
@@ -55,7 +47,7 @@ class AddList extends React.Component<IProps & NavigationInjectedProps> {
           iconType="entypo"
           icon="new-message"
           text={name}
-          onChange={text => this.setState({ name: text })}
+          onChange={this.handleNewMessage}
         />
         {loading ? (
           <ActivityIndicator size="large" />

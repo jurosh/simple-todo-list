@@ -1,34 +1,32 @@
 {
-  "name": "react-native-toptal",
-  "version": "0.1.0",
+  "name": "simple-todo-list-toptalacademy",
+  "version": "1.0.0",
   "private": true,
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
   "scripts": {
     "startc": "npm start -- --reset-cache",
     "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.12' react-native-scripts-ts start",
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "eject": "react-native-scripts-ts eject",
     "android": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.51' react-native-scripts-ts android",
     "ios": "react-native-scripts-ts ios",
     "test": "node node_modules/jest/bin/jest.js"
   },
   "dependencies": {
-    "@types/expo": "^25.0.0",
-    "@types/expo__vector-icons": "^6.2.1",
-    "cross-env": "^5.1.4",
     "expo": "^25.0.0",
     "firebase": "^4.11.0",
     "react": "^16.2.0",
     "react-native": "0.52.0",
     "react-native-check-box": "^2.1.0",
-    "react-native-contacts": "^2.1.2",
-    "react-native-firebase-auth": "^1.0.1",
-    "react-native-google-sign-in": "^1.0.16",
     "react-native-image-preview": "^0.3.1",
     "react-navigation": "^1.5.1",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2"
   },
   "devDependencies": {
+    "cross-env": "^5.1.4",
+    "@types/expo": "^25.0.0",
+    "@types/expo__vector-icons": "^6.2.1",
     "@types/jest": "^22.0.0",
     "@types/react": "^16.0.38",
     "@types/react-native": "^0.52.0",
@@ -41,6 +39,9 @@
     "react-test-renderer": "16.2.0",
     "ts-jest": "^22.0.4",
     "tslib": "^1.7.1",
+    "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.10.0",
+    "tslint-react": "^3.5.1",
     "typescript": "^2.8.0-rc"
   }
 }

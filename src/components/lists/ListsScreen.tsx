@@ -1,15 +1,4 @@
 import * as React from 'react';
-import {
-  Image,
-  Button,
-  StyleSheet,
-  View,
-  ScrollView,
-  TouchableNativeFeedback,
-  Text,
-  TextInput,
-  ActivityIndicator
-} from 'react-native';
 import { NavigationInjectedProps } from 'react-navigation';
 import AddList from './AddList';
 import IconInput from '../basic/IconInput';
@@ -37,6 +26,10 @@ class ListsScreen extends React.Component<IProps, IState> {
 
   listsUnsubscribe: (() => void) | null = null;
 
+  handleSearchType = text => this.setState({ search: text });
+
+  handleItemClick = list => this.props.navigation.navigate('Todos', { listId: list.id });
+
   componentDidMount() {
     this.listsUnsubscribe = queryLists().onSnapshot(snapshot => {
       const lists: any[] = [];
@@ -55,36 +48,31 @@ class ListsScreen extends React.Component<IProps, IState> {
     }
   }
 
+  handleBeforeAdd = () => {
+    if (this.listsUnsubscribe) {
+      this.listsUnsubscribe();
+    }
+  };
+
   render() {
     const { search, loading } = this.state;
     return (
-      <Layout
-        heading="Todos Lists"
-        footer={
-          <AddList onAdding={() => this.listsUnsubscribe && this.listsUnsubscribe()} />
-        }
-      >
+      <Layout heading="Todos Lists" footer={<AddList onAdding={this.handleBeforeAdd} />}>
         <IconInput
           iconType="material"
           icon="search"
           text={search}
-          onChange={text => this.setState({ search: text })}
+          onChange={this.handleSearchType}
         />
         <ListsContainer
           loading={loading}
           search={search}
-          onItemClick={list =>
-            this.props.navigation.navigate('Todos', { listId: list.id })
-          }
+          onItemClick={this.handleItemClick}
         />
       </Layout>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  //
-});
 
 const mapDispatchToProps = dispatch => ({
   onFetched(lists: ITodoList[]) {

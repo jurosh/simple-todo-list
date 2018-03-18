@@ -1,22 +1,13 @@
 import * as React from 'react';
 import {
-  Image,
-  Button,
   StyleSheet,
   View,
-  ScrollView,
   TouchableNativeFeedback,
   Text,
-  TextInput,
   ActivityIndicator
 } from 'react-native';
-import { NavigationInjectedProps } from 'react-navigation';
 import { connect } from 'react-redux';
-import AddList from './AddList';
-import IconInput from '../basic/IconInput';
-import Layout from '../Layout';
-import { queryLists, IList } from '../../api/lists';
-import { ITodoList, storeLists } from '../../redux/lists';
+import { ITodoList } from '../../redux/lists';
 
 interface IProps {
   onItemClick: (list: ITodoList) => void;

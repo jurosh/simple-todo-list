@@ -1,4 +1,3 @@
-import * as firebase from 'firebase';
 import { getDb, getUserId } from './index';
 import { uploadImageAsync } from './image';
 
@@ -65,7 +64,7 @@ export interface ITodo {
 
 export const addTodo = (listId, todoObject: ITodo) =>
   getDb().runTransaction(transaction => {
-    const todosRef = getDb()
+    getDb()
       .collection('users')
       .doc(getUserId())
       .collection('lists')
