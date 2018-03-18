@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View, Text, TextInput } from 'react-native';
 import { updateTodo, ITodo } from '../../api/lists';
 import { MaterialIcons } from '@expo/vector-icons';
+import Contact from './Contact';
 import ImageWithPreview from '../basic/ImageWithPreview';
 
 interface IProps {
@@ -38,17 +39,16 @@ export default class TodoEditItem extends React.Component<IProps, IState> {
           <MaterialIcons name="delete" size={30} onPress={onDelete} />
           <TextInput
             style={styles.input}
-            value={editText || todo.text}
+            value={editText}
             onChangeText={this.onChangeText}
             onEndEditing={this.save}
           />
-          {!!editText &&
-            editText !== todo.text && (
-              <MaterialIcons size={30} name="sync" onPress={this.save} />
-            )}
+          {editText !== todo.text && (
+            <MaterialIcons size={30} name="sync" onPress={this.save} />
+          )}
         </View>
         {todo.image && <ImageWithPreview image={todo.image} />}
-        {todo.contactName && <Text>{todo.contactName}</Text>}
+        {todo.contactName && <Contact name={todo.contactName} />}
       </View>
     );
   }

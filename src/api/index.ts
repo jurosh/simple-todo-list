@@ -64,7 +64,8 @@ XMLHttpRequest.prototype.send = function(body) {
 
 export const initializeAndWaitForAuth = (
   onLogin: () => void,
-  onLogout: () => void
+  onLogout: () => void,
+  onReady: () => void
 ): void => {
   console.log('[Firebase] Starting firebase connection...');
 
@@ -79,7 +80,10 @@ export const initializeAndWaitForAuth = (
       console.log('[Firebase] We are authenticated now!');
       globalCredential = user;
       onLogin();
+    } else {
+      console.log('We are not auth');
     }
+    onReady();
   });
 };
 

@@ -28,6 +28,7 @@ interface IState {
 
 const DISPLAYED_COUNT = 40;
 
+// TODO: Small refactor
 class ContactsPickerScreen extends React.Component<
   IProps & NavigationInjectedProps,
   IState

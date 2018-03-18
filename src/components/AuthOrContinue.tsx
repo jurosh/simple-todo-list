@@ -5,6 +5,7 @@ import { initializeAndWaitForAuth } from '../api';
 
 export default class LoginOrContinue extends React.Component {
   state = {
+    initialized: false,
     logged: false
   };
 
@@ -16,10 +17,18 @@ export default class LoginOrContinue extends React.Component {
     this.setState({ logged: false });
   };
 
+  onReady = () => {
+    this.setState({ initialized: true });
+  };
+
   componentDidMount() {
-    initializeAndWaitForAuth(this.onLogin, this.onLogout);
+    initializeAndWaitForAuth(this.onLogin, this.onLogout, this.onReady);
   }
+
   render() {
+    if (!this.state.initialized) {
+      return null;
+    }
     return this.state.logged ? <Router /> : <LoginScreen />;
   }
 }

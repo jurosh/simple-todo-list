@@ -15,47 +15,60 @@ interface IPros extends NavigationInjectedProps {
   children: any;
   edit?: boolean;
   onEdit?: (edit: boolean) => void;
+  afterContent: () => any;
   back: () => void;
-  footer: any;
+  footer?: () => any;
 }
 
-const Layout = ({ children, heading, back, edit, footer, onEdit, navigation }: IPros) => (
-  <ScrollView style={styles.scroller}>
-    <KeyboardAvoidingView behavior="padding">
-      <View style={styles.topLine} />
-      <View style={styles.head}>
-        {back ? (
-          <TouchableHighlight style={styles.imageClickable} onPress={back}>
-            <MaterialIcons name="arrow-back" size={40} />
-          </TouchableHighlight>
-        ) : (
-          <TouchableHighlight
-            style={styles.imageClickable}
-            onPress={() => navigation.navigate('DrawerOpen')}
-          >
-            <Entypo name="menu" size={40} />
-          </TouchableHighlight>
-        )}
-        <Text style={styles.heading}>{heading}</Text>
-        {onEdit && (
-          <View style={styles.editWrap}>
-            <TouchableHighlight onPress={() => onEdit(!edit)}>
-              <View style={styles.edit}>
-                <Entypo name={edit ? 'check' : 'edit'} size={25} color="white" />
-              </View>
+const Layout = ({
+  children,
+  heading,
+  back,
+  edit,
+  footer,
+  afterContent,
+  onEdit,
+  navigation
+}: IPros) => (
+  <View style={styles.wrap}>
+    <View style={styles.topLine} />
+    <ScrollView keyboardShouldPersistTaps="always">
+      <KeyboardAvoidingView behavior="padding">
+        <View style={styles.head}>
+          {back ? (
+            <TouchableHighlight style={styles.imageClickable} onPress={back}>
+              <MaterialIcons name="arrow-back" size={40} />
             </TouchableHighlight>
-          </View>
-        )}
-      </View>
-      <View style={styles.content}>{children}</View>
-      {footer && <View style={styles.footer}>{footer}</View>}
-    </KeyboardAvoidingView>
-  </ScrollView>
+          ) : (
+            <TouchableHighlight
+              style={styles.imageClickable}
+              onPress={() => navigation.navigate('DrawerOpen')}
+            >
+              <Entypo name="menu" size={40} />
+            </TouchableHighlight>
+          )}
+          <Text style={styles.heading}>{heading}</Text>
+          {onEdit && (
+            <View style={styles.editWrap}>
+              <TouchableHighlight onPress={() => onEdit(!edit)}>
+                <View style={styles.edit}>
+                  <Entypo name={edit ? 'check' : 'edit'} size={25} color="white" />
+                </View>
+              </TouchableHighlight>
+            </View>
+          )}
+        </View>
+        <View style={styles.content}>{children}</View>
+        {afterContent && <View style={styles.afterContent}>{afterContent()}</View>}
+      </KeyboardAvoidingView>
+    </ScrollView>
+    {footer && <React.Fragment>{footer()}</React.Fragment>}
+  </View>
 );
 
 const styles = StyleSheet.create({
-  scroller: {
-    backgroundColor: '#ffff8b'
+  wrap: {
+    height: '100%'
   },
   imageClickable: {
     width: 40,
@@ -91,10 +104,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     paddingBottom: 40,
-    minHeight: 200,
-    backgroundColor: '#e0e0e0'
+    minHeight: 200
   },
-  footer: {
+  afterContent: {
+    backgroundColor: '#ffffa8',
     padding: 10
   }
 });

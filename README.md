@@ -20,6 +20,8 @@ Colors: https://material.io/color/#!/?view.left=0&view.right=0&primary.color=FFE
 
 Transitions: https://medium.com/async-la/custom-transitions-in-react-navigation-2f759408a053
 
+Animations: https://facebook.github.io/react-native/docs/animations.html
+
 ## Firebase Rest API
 
 Auth
@@ -34,6 +36,7 @@ https://firebase.google.com/docs/database/rest/auth
 * code cleanup
 * backend restrictions, rules
 * write few unit tests
+* count recalculation on backend
 * OPTIONAL remember login
 
 # OFFICIAL REQUIREMENTS

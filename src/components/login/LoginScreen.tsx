@@ -42,7 +42,11 @@ class LoginScreen extends React.Component<{}, IState> {
   render() {
     const { email, password, loading } = this.state;
     return (
-      <ScrollView style={styles.scroll} overScrollMode="always">
+      <ScrollView
+        style={styles.scroll}
+        overScrollMode="always"
+        keyboardShouldPersistTaps="always"
+      >
         <KeyboardAvoidingView behavior="padding">
           <View style={styles.topLine} />
           <View style={styles.wrap}>
@@ -111,9 +115,6 @@ const styles = StyleSheet.create({
   registerWrap: {
     alignItems: 'center',
     margin: 20
-  },
-  register: {
-    color: 'black'
   }
 });
 

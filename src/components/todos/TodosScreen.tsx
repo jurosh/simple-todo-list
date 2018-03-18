@@ -121,7 +121,7 @@ export default class TodosScreen extends React.Component<IProps, IState> {
           back={() => this.props.navigation.goBack()}
           edit={editable}
           onEdit={edit => this.setState({ editable: edit })}
-          footer={<AddTodo listId={listId} uploadPhoto={this.uploadPhoto} />}
+          afterContent={() => <AddTodo listId={listId} uploadPhoto={this.uploadPhoto} />}
         >
           {editable && <RenameList listId={listId} listName={listName} />}
           <View style={styles.margin}>
@@ -163,9 +163,6 @@ export default class TodosScreen extends React.Component<IProps, IState> {
 const styles = StyleSheet.create({
   margin: {
     marginVertical: 30
-  },
-  todoImage: {
-    height: 100
   },
   item: {
     marginBottom: 1,

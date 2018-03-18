@@ -1,5 +1,6 @@
 import * as React from 'react';
 import RNCheckBox from 'react-native-check-box';
+import { StyleSheet } from 'react-native';
 
 interface IProps {
   checked: boolean;
@@ -10,12 +11,19 @@ interface IProps {
 
 const Checkbox = ({ checked, onClick, leftText, rightText }: IProps) => (
   <RNCheckBox
-    style={{ flex: 1, padding: 10 }}
+    style={styles.check}
     onClick={onClick}
     isChecked={checked}
     leftText={leftText}
     rightText={rightText}
   />
 );
+
+const styles = StyleSheet.create({
+  check: {
+    flex: 1,
+    padding: 10
+  }
+});
 
 export default Checkbox;

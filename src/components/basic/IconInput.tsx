@@ -16,7 +16,6 @@ const IconInput = ({ text, iconType, icon, onChange }: IProps) => (
     ) : (
       <MaterialIcons style={styles.icon} size={30} name={icon} />
     )}
-
     <TextInput style={styles.search} value={text} onChangeText={onChange} />
   </View>
 );

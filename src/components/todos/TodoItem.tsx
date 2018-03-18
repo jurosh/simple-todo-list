@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Checkbox from '../basic/Checkbox';
+import Contact from './Contact';
 import { updateTodo } from '../../api/lists';
 import ImageWithPreview from '../basic/ImageWithPreview';
 import { ITodo } from '../../api/lists';
@@ -21,11 +22,9 @@ export default class TodoItem extends React.Component<IProps> {
     const { todo } = this.props;
     return (
       <View style={styles.item}>
-        <View style={styles.checkWrap}>
-          <Checkbox checked={!!todo.check} onClick={this.onClick} rightText={todo.text} />
-        </View>
+        <Checkbox checked={!!todo.check} onClick={this.onClick} rightText={todo.text} />
         {todo.image && <ImageWithPreview image={todo.image} />}
-        {todo.contactName && <Text>{todo.contactName}</Text>}
+        {todo.contactName && <Contact name={todo.contactName} />}
       </View>
     );
   }
@@ -34,6 +33,5 @@ export default class TodoItem extends React.Component<IProps> {
 const styles = StyleSheet.create({
   item: {
     margin: 10
-  },
-  checkWrap: {}
+  }
 });

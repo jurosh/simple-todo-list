@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   count: {
-    backgroundColor: '#9c4dcc',
+    backgroundColor: '#c9bc1f',
     color: 'white',
     borderRadius: 100,
     width: 50,
