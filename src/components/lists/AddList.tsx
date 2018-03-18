@@ -5,7 +5,6 @@ import { createList } from '../../api/lists';
 import IconInput from '../basic/IconInput';
 
 interface IProps {
-  onAdding: () => void;
   onAdded: () => void;
 }
 
@@ -22,19 +21,17 @@ class AddList extends React.Component<IProps & NavigationInjectedProps, IState> 
 
   onAdd = () => {
     const { name } = this.state;
-    const { navigation, onAdding, onAdded } = this.props;
+    const { navigation, onAdded } = this.props;
     if (!name) {
       Alert.alert('Enter new list name');
       return;
     }
     this.setState({ loading: true });
-    onAdding();
     createList(name).then(data => {
       onAdded();
       navigation.navigate('Todos', {
         listId: data.id,
-        listName: name,
-        startAsEditable: true
+        listName: name
       });
     });
   };

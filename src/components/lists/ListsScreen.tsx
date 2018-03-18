@@ -44,6 +44,8 @@ class ListsScreen extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
+    console.log('Loading Lists...');
+
     this.listsUnsubscribe = queryLists().onSnapshot(snapshot => {
       const lists: any[] = [];
       snapshot.forEach(document => {
@@ -56,16 +58,11 @@ class ListsScreen extends React.Component<IProps, IState> {
   }
 
   componentWillUnmount() {
+    console.log('Unmount...');
     if (this.listsUnsubscribe) {
       this.listsUnsubscribe();
     }
   }
-
-  handleBeforeAdd = () => {
-    if (this.listsUnsubscribe) {
-      this.listsUnsubscribe();
-    }
-  };
 
   handleAdded = () => {
     this.setState({ addingNew: false });
@@ -80,7 +77,7 @@ class ListsScreen extends React.Component<IProps, IState> {
           <React.Fragment>
             {addingNew ? (
               <PopInputInView>
-                <AddList onAdding={this.handleBeforeAdd} onAdded={this.handleAdded} />
+                <AddList onAdded={this.handleAdded} />
               </PopInputInView>
             ) : (
               <TouchableNativeFeedback onPress={() => this.setState({ addingNew: true })}>
