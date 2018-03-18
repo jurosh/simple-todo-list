@@ -16,23 +16,31 @@ interface IProps {
   search?: string;
 }
 
-const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) => (
-  <View style={styles.wrap}>
-    {lists.length === 0 && loading && <ActivityIndicator size="large" />}
-    {lists.filter(list => list.name.includes(search)).map(list => (
-      <TouchableNativeFeedback
-        background={TouchableNativeFeedback.Ripple('#38006b')}
-        key={list.id}
-        onPress={() => onItemClick(list)}
-      >
-        <View style={styles.item}>
-          <Text style={styles.itemText}>{list.name}</Text>
-          <Text style={styles.count}>{list.todosCount}</Text>
-        </View>
-      </TouchableNativeFeedback>
-    ))}
-  </View>
-);
+const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) => {
+  const filteredList = lists.filter(list => list.name.includes(search));
+  return (
+    <View style={styles.wrap}>
+      {filteredList.length === 0 &&
+        (loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <Text style={styles.empty}>No lists</Text>
+        ))}
+      {filteredList.map(list => (
+        <TouchableNativeFeedback
+          background={TouchableNativeFeedback.Ripple('#38006b')}
+          key={list.id}
+          onPress={() => onItemClick(list)}
+        >
+          <View style={styles.item}>
+            <Text style={styles.itemText}>{list.name}</Text>
+            <Text style={styles.count}>{list.todosCount}</Text>
+          </View>
+        </TouchableNativeFeedback>
+      ))}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   wrap: {
@@ -46,6 +54,11 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     display: 'flex',
     flexDirection: 'row'
+  },
+  empty: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 20
   },
   itemText: {
     fontSize: 25,

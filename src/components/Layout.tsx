@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {
-  TouchableHighlight,
+  TouchableNativeFeedback,
   StyleSheet,
   View,
   KeyboardAvoidingView,
@@ -36,25 +36,25 @@ const Layout = ({
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.head}>
           {back ? (
-            <TouchableHighlight style={styles.imageClickable} onPress={back}>
+            <TouchableNativeFeedback style={styles.imageClickable} onPress={back}>
               <MaterialIcons name="arrow-back" size={40} />
-            </TouchableHighlight>
+            </TouchableNativeFeedback>
           ) : (
-            <TouchableHighlight
+            <TouchableNativeFeedback
               style={styles.imageClickable}
               onPress={() => navigation.navigate('DrawerOpen')}
             >
               <Entypo name="menu" size={40} />
-            </TouchableHighlight>
+            </TouchableNativeFeedback>
           )}
           <Text style={styles.heading}>{heading}</Text>
           {onEdit && (
             <View style={styles.editWrap}>
-              <TouchableHighlight onPress={() => onEdit(!edit)}>
+              <TouchableNativeFeedback onPress={() => onEdit(!edit)}>
                 <View style={styles.edit}>
                   <Entypo name={edit ? 'check' : 'edit'} size={25} color="white" />
                 </View>
-              </TouchableHighlight>
+              </TouchableNativeFeedback>
             </View>
           )}
         </View>

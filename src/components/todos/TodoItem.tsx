@@ -32,6 +32,6 @@ export default class TodoItem extends React.Component<IProps> {
 
 const styles = StyleSheet.create({
   item: {
-    margin: 10
+    margin: 5
   }
 });

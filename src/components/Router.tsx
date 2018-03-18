@@ -40,10 +40,6 @@ const styles = StyleSheet.create({
   profileText: {
     marginBottom: 15,
     fontSize: 20
-  },
-  icon: {
-    width: 150,
-    height: 150
   }
 });
 
