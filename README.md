@@ -33,10 +33,10 @@ https://firebase.google.com/docs/database/rest/auth
 # TODOS
 
 * DONE tslint
-* code cleanup
-* backend restrictions, rules
+* DONE code cleanup
+* DONE backend restrictions, rules
 * write few unit tests
-* count recalculation on backend
+* DONE count recalculation on backend
 * OPTIONAL remember login
 
 # OFFICIAL REQUIREMENTS

@@ -63,31 +63,17 @@ export interface ITodo {
 }
 
 export const addTodo = (listId, todoObject: ITodo) =>
-  getDb().runTransaction(transaction => {
-    getDb()
-      .collection('users')
-      .doc(getUserId())
-      .collection('lists')
-      .doc(listId)
-      .collection('todos')
-      .add({
-        ...todoObject,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      });
-
-    const listRef = getDb()
-      .collection('users')
-      .doc(getUserId())
-      .collection('lists')
-      .doc(listId);
-
-    return transaction.get(listRef).then(doc => {
-      transaction.update(listRef, {
-        count: ((doc.data() as IList).count || 0) + 1
-      });
+  getDb()
+    .collection('users')
+    .doc(getUserId())
+    .collection('lists')
+    .doc(listId)
+    .collection('todos')
+    .add({
+      ...todoObject,
+      createdAt: new Date(),
+      updatedAt: new Date()
     });
-  });
 
 export const updateTodo = (listId: string, todoId: string, todo: ITodo) =>
   getDb()

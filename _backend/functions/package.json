@@ -1,0 +1,22 @@
+{
+  "name": "functions",
+  "scripts": {
+    "login": "firebase login",
+    "build": "tsc",
+    "serve": "npm run build && firebase serve --only functions",
+    "shell": "npm run build && firebase experimental:functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "firebase-admin": "^5.8.2",
+    "firebase-functions": "^0.8.1"
+  },
+  "devDependencies": {
+    "firebase-tools": "^3.17.6",
+    "typescript": "^2.5.3"
+  },
+  "private": true
+}
