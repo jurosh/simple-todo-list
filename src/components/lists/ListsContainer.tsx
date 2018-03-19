@@ -22,7 +22,7 @@ const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) =>
     <View style={styles.wrap}>
       {filteredList.length === 0 &&
         (loading ? (
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#9c4dcc" />
         ) : (
           <Text style={styles.empty}>No lists</Text>
         ))}

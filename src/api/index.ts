@@ -1,5 +1,4 @@
 import * as firebase from 'firebase';
-// TODO: ? treba import FireAuth from 'react-native-firebase-auth';
 import 'firebase/firestore'; // Required for side-effects
 
 // https://firebase.google.com/docs/firestore/quickstart

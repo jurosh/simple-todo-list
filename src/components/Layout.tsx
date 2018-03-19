@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   TouchableNativeFeedback,
   StyleSheet,
+  StatusBar,
   View,
   KeyboardAvoidingView,
   ScrollView,
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
   },
   topLine: {
     backgroundColor: '#c9bc1f',
-    height: 20
+    height: StatusBar.currentHeight
   },
   head: {
     display: 'flex',

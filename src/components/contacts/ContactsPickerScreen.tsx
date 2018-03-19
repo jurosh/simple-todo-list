@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  ActivityIndicator,
-  TouchableNativeFeedback,
-  Text
-} from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Text } from 'react-native';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import Layout from '../Layout';
@@ -13,6 +7,7 @@ import IconInput from '../basic/IconInput';
 import { getAllContacts } from '../../api/contacts';
 import { addContacts, startAddContacts, IContact } from '../../redux/contacts';
 import { addTodoContact } from '../../api/lists';
+import Contact from './Contact';
 
 interface IProps {
   list: IContact[];
@@ -28,7 +23,6 @@ interface IState {
 
 const DISPLAYED_COUNT = 40;
 
-// TODO: Small refactor
 class ContactsPickerScreen extends React.Component<
   IProps & NavigationInjectedProps,
   IState
@@ -37,7 +31,7 @@ class ContactsPickerScreen extends React.Component<
     search: ''
   };
 
-  handleSearchType = text => this.setState({ search: text.toLowerCase() });
+  handleSearchType = text => this.setState({ search: text });
 
   componentDidMount() {
     if (
@@ -53,12 +47,8 @@ class ContactsPickerScreen extends React.Component<
   }
 
   componentWillUnmount() {
-    // TODO: Stop loading
+    // We might stop loading contacts...
   }
-
-  handleGoBack = () => {
-    this.props.navigation.goBack();
-  };
 
   onSelect = (name: string) => {
     const params = (this.props.navigation.state as any).params;
@@ -69,40 +59,37 @@ class ContactsPickerScreen extends React.Component<
   render() {
     const { search } = this.state;
     const { list, total, loading } = this.props;
+    const lowercaseSearch = search.toLowerCase();
     const filteredList = list.filter(
-      contact => contact && contact.name && contact.name.toLowerCase().includes(search)
+      contact => contact && contact.name && contact.name.includes(lowercaseSearch)
     );
     const nonDisplayedCount =
       filteredList.length > DISPLAYED_COUNT
         ? filteredList.length + 1 - DISPLAYED_COUNT
         : 0;
     return (
-      <Layout heading="Pick Contact" back={this.handleGoBack}>
+      <Layout heading="Pick Contact" back={() => this.props.navigation.goBack()}>
         <IconInput
           iconType="material"
           icon="search"
           text={search}
           onChange={this.handleSearchType}
         />
-        {loading && (
-          <View style={styles.loader}>
-            <ActivityIndicator />
-          </View>
-        )}
         <Text style={styles.count}>
-          {list.length < total && `of ${list.length}`} {total} contacts
+          {list.length < total && `${list.length} of`} {total} contacts
         </Text>
-        {filteredList.slice(0, DISPLAYED_COUNT).map((contact, index) => (
-          <TouchableNativeFeedback
-            key={index} /* TODO: contact.id */
-            background={TouchableNativeFeedback.Ripple('gray')}
-            onPress={() => this.onSelect(contact.name || contact.firstName)}
-          >
-            <View style={styles.contact}>
-              <Text>{contact.name}</Text>
-            </View>
-          </TouchableNativeFeedback>
-        ))}
+        {loading ? (
+          <View style={styles.loader}>
+            <ActivityIndicator color="#9c4dcc" />
+          </View>
+        ) : (
+          filteredList.length === 0 && <Text style={styles.empty}>No contacts found</Text>
+        )}
+        {filteredList
+          .slice(0, DISPLAYED_COUNT)
+          .map(contact => (
+            <Contact name={contact.name || contact.firstName} onSelect={this.onSelect} />
+          ))}
         {nonDisplayedCount > 0 && (
           <Text style={styles.more}>And {nonDisplayedCount} more...</Text>
         )}
@@ -119,16 +106,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10
   },
-  contact: {
-    marginBottom: 1,
-    backgroundColor: 'white',
-    borderRadius: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 20,
-    display: 'flex',
-    flexDirection: 'row'
-  },
   more: {
+    margin: 20,
+    textAlign: 'center'
+  },
+  empty: {
     margin: 20,
     textAlign: 'center'
   }

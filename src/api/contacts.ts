@@ -11,7 +11,7 @@ export const getContact = async id => {
   });
 };
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 const getContactsPart = pageOffset => {
   return Expo.Contacts.getContactsAsync({

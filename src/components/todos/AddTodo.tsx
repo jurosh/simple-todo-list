@@ -30,7 +30,11 @@ const ActionIcon = ({ loading, text, image, onPress }) => (
   <TouchableNativeFeedback onPress={onPress} disabled={loading}>
     <View style={styles.action}>
       {image}
-      {loading ? <ActivityIndicator /> : <Text style={styles.actionText}>{text}</Text>}
+      {loading ? (
+        <ActivityIndicator color="white" />
+      ) : (
+        <Text style={styles.actionText}>{text}</Text>
+      )}
     </View>
   </TouchableNativeFeedback>
 );
@@ -61,14 +65,16 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
     this.setState({ loadingPickImage: true });
     pickExistingPhoto()
       .then(this.props.uploadPhoto)
-      .then(() => this.setState({ loadingPickImage: false }));
+      .then(() => this.setState({ loadingPickImage: false }))
+      .catch(() => this.setState({ loadingPickImage: false }));
   };
 
   handleTakePhoto = () => {
     this.setState({ loadingTakeImage: true });
     takePhoto()
       .then(this.props.uploadPhoto)
-      .then(() => this.setState({ loadingTakeImage: false }));
+      .then(() => this.setState({ loadingTakeImage: false }))
+      .catch(() => this.setState({ loadingTakeImage: false }));
   };
 
   handleAddContact = () =>
@@ -85,7 +91,7 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
           onChange={this.handleType}
         />
         {loading ? (
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#9c4dcc" />
         ) : (
           <Button title="ADD" onPress={this.onAdd} color="#6a1b9a" />
         )}

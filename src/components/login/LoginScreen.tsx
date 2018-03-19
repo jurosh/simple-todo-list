@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Button,
   ActivityIndicator,
+  StatusBar,
   Image,
   ScrollView,
   StyleSheet,
@@ -69,7 +70,7 @@ class LoginScreen extends React.Component<{}, IState> {
 
               <View style={styles.buttonWrap}>
                 {loading ? (
-                  <ActivityIndicator size="large" />
+                  <ActivityIndicator size="large" color="#9c4dcc" />
                 ) : (
                   <React.Fragment>
                     <Button title="Login" onPress={this.login} color="#6a1b9a" />
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
   },
   topLine: {
     backgroundColor: '#c9bc1f',
-    height: 20
+    height: StatusBar.currentHeight
   },
   wrap: {
     alignItems: 'center'

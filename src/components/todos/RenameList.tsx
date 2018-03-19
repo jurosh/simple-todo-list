@@ -47,7 +47,7 @@ class RenameList extends React.Component<IProps> {
         <Text style={styles.text}>Rename listing ?</Text>
         <TextInput value={text} onChangeText={this.onChangeText} />
         {loading ? (
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#9c4dcc" />
         ) : (
           <Button onPress={this.onUpdate} title="RENAME" color="#9c4dcc" />
         )}

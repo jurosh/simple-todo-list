@@ -49,7 +49,7 @@ class AddList extends React.Component<IProps & NavigationInjectedProps, IState> 
           onChange={this.handleNewMessage}
         />
         {loading ? (
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size="large" color="#9c4dcc" />
         ) : (
           <Button title="ADD NEW" onPress={this.onAdd} color="#6a1b9a" />
         )}

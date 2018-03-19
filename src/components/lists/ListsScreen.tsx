@@ -44,8 +44,6 @@ class ListsScreen extends React.Component<IProps, IState> {
   };
 
   componentDidMount() {
-    console.log('Loading Lists...');
-
     this.listsUnsubscribe = queryLists().onSnapshot(snapshot => {
       const lists: any[] = [];
       snapshot.forEach(document => {
@@ -58,7 +56,6 @@ class ListsScreen extends React.Component<IProps, IState> {
   }
 
   componentWillUnmount() {
-    console.log('Unmount...');
     if (this.listsUnsubscribe) {
       this.listsUnsubscribe();
     }

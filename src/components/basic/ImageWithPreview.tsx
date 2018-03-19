@@ -39,9 +39,9 @@ export default class ImageWithPreview extends React.Component<IProps, IState> {
 
 const styles = StyleSheet.create({
   imageWrap: {
-    maxHeight: 150
+    maxHeight: 200
   },
   image: {
-    height: 100
+    height: 200
   }
 });

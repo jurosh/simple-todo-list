@@ -21,6 +21,7 @@ import TodoItem from './TodoItem';
 import TodoEditItem from './TodoEditItem';
 import RenameList from './RenameList';
 import { ImagePicker } from 'expo';
+import { NavigationActions } from 'react-navigation';
 
 interface ITodoId extends ITodo {
   id: string;
@@ -35,6 +36,7 @@ interface IProps {
   navigation: {
     navigate: (name: string) => void;
     goBack: () => void;
+    dispatch: any;
     state: {
       params: INavigationParams;
     };
@@ -77,11 +79,11 @@ export default class TodosScreen extends React.Component<IProps, IState> {
         loading: false
       });
     });
-    this.unsubscribeList = queryList(listId).onSnapshot(snapshot =>
+    this.unsubscribeList = queryList(listId).onSnapshot(snapshot => {
       this.setState({
         listName: (snapshot.data() as any).name
-      })
-    );
+      });
+    });
   }
 
   componentWillUnmount() {
@@ -108,7 +110,12 @@ export default class TodosScreen extends React.Component<IProps, IState> {
       this.unsubscribeList();
     }
     removeList(this.getListId());
-    this.props.navigation.navigate('Lists');
+    this.props.navigation.dispatch(
+      NavigationActions.reset({
+        index: 0,
+        actions: [NavigationActions.navigate({ routeName: 'Lists' })]
+      })
+    );
   };
 
   render() {
@@ -125,7 +132,7 @@ export default class TodosScreen extends React.Component<IProps, IState> {
         >
           {editable && <RenameList listId={listId} listName={listName} />}
           <View style={styles.margin}>
-            {loading && <ActivityIndicator size="large" />}
+            {loading && <ActivityIndicator size="large" color="#9c4dcc" />}
             {todos.map((todo, index) => (
               <View style={styles.item} key={`${todo.text}_${index}`}>
                 {editable ? (
