@@ -12,6 +12,20 @@
     "ios": "react-native-scripts-ts ios",
     "test": "node node_modules/jest/bin/jest.js"
   },
+  "jest": {
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.jsx?$": "./node_modules/babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": true
+      }
+    }
+  },
   "dependencies": {
     "expo": "^25.0.0",
     "firebase": "^4.6.2",
@@ -19,25 +33,25 @@
     "react-native": "0.52.0",
     "react-native-check-box": "^2.1.0",
     "react-native-image-preview": "^0.3.1",
-    "react-navigation": "^1.5.1",
+    "react-navigation": "^1.5.7",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2"
   },
   "devDependencies": {
-    "cross-env": "^5.1.4",
-    "@types/expo": "^25.0.0",
+    "@types/expo": "^25.0.2",
     "@types/expo__vector-icons": "^6.2.1",
-    "@types/jest": "^22.0.0",
+    "@types/jest": "^22.2.0",
     "@types/react": "^16.0.38",
-    "@types/react-native": "^0.52.0",
-    "@types/react-navigation": "^1.2.1",
+    "@types/react-native": "^0.52.18",
+    "@types/react-navigation": "^1.2.3",
     "@types/react-test-renderer": "^16.0.0",
-    "jest-expo": "25.0.0",
+    "cross-env": "^5.1.4",
+    "jest-expo": "^25.1.0",
     "prettier": "^1.11.1",
-    "react-native-scripts-ts": "1.11.3",
+    "react-native-scripts-ts": "^1.11.4",
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.2.0",
-    "ts-jest": "^22.0.4",
+    "ts-jest": "^22.4.2",
     "tslib": "^1.7.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.10.0",

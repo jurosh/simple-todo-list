@@ -1,10 +1,22 @@
 import { share } from '../../api/share';
 import { ITodo } from '../../api/lists';
 
-export const shareTodosList = (name: string, list: ITodo[]) => {
-  const content = `Todos "${name}"
+const renderImage = image => (image ? `(${image})` : '');
 
-${list.map(todo => `* todo.text ${todo.image ? `(${todo.image})` : ''}`).join('\n')}
-`;
-  share(name, content);
+const renderContact = contactName => (contactName ? `(@${contactName})` : '');
+
+const renderAttachments = (todo: ITodo) => {
+  const attachments = [renderContact(todo.contactName), renderImage(todo.image)].filter(
+    text => !!text
+  );
+  return attachments.length > 0 ? ' ' + attachments.join(' ') : '';
 };
+
+export const renderTodoList = (name: string, list: ITodo[]) =>
+  `Todos "${name}"
+
+${list.map(todo => `* ${todo.text}${renderAttachments(todo)}`).join('\n')}
+`;
+
+export const shareTodosList = (name: string, list: ITodo[]) =>
+  share(name, renderTodoList(name, list));

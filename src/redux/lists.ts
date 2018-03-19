@@ -15,7 +15,7 @@ export const storeLists = (lists: ITodoList[]) => ({
   lists
 });
 
-type Action = GetReturnedType<typeof storeLists | any>;
+type Action = GetReturnedType<typeof storeLists>;
 
 // Reducers
 
@@ -30,4 +30,4 @@ export const list = (state: ITodoList[] = [], action: Action) => {
 
 export default combineReducers({
   list
-});
+} as any);

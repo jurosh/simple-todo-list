@@ -1,6 +1,10 @@
 # Toptal React Academy
 
-https://github.com/mathieudutour/create-react-native-app-typescript
+App created with https://github.com/mathieudutour/create-react-native-app-typescript
+
+## Tech links
+
+Compatibility: https://github.com/react-community/create-react-native-app/blob/master/VERSIONS.md
 
 Contacts: https://docs.expo.io/versions/latest/sdk/contacts.html
 
@@ -29,15 +33,6 @@ Auth
 https://firebase.google.com/docs/reference/rest/auth/
 
 https://firebase.google.com/docs/database/rest/auth
-
-# TODOS
-
-* DONE tslint
-* DONE code cleanup
-* DONE backend restrictions, rules
-* write few unit tests
-* DONE count recalculation on backend
-* OPTIONAL remember login
 
 # OFFICIAL REQUIREMENTS
 

@@ -23,7 +23,7 @@ export const addContacts = (
   meta
 });
 
-type Action = GetReturnedType<typeof startAddContacts | typeof addContacts>;
+export type Action = GetReturnedType<typeof startAddContacts | typeof addContacts>;
 
 // Reducers
 
