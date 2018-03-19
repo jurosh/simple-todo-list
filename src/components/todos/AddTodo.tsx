@@ -15,18 +15,31 @@ import { addTodo } from '../../api/lists';
 import IconInput from '../basic/IconInput';
 
 interface IProps {
-  uploadPhoto: (photo: any) => void;
+  uploadPhoto: (photo: any) => Promise<void>;
   listId: string;
 }
 
 interface IState {
   loading: boolean;
+  loadingPickImage: boolean;
+  loadingTakeImage: boolean;
   text: string;
 }
+
+const ActionIcon = ({ loading, text, image, onPress }) => (
+  <TouchableNativeFeedback onPress={onPress} disabled={loading}>
+    <View style={styles.action}>
+      {image}
+      {loading ? <ActivityIndicator /> : <Text style={styles.actionText}>{text}</Text>}
+    </View>
+  </TouchableNativeFeedback>
+);
 
 class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
   state: IState = {
     loading: false,
+    loadingPickImage: false,
+    loadingTakeImage: false,
     text: ''
   };
 
@@ -44,15 +57,25 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
 
   handleType = text => this.setState({ text });
 
-  handlePickPhoto = () => pickExistingPhoto().then(this.props.uploadPhoto);
+  handlePickPhoto = () => {
+    this.setState({ loadingPickImage: true });
+    pickExistingPhoto()
+      .then(this.props.uploadPhoto)
+      .then(() => this.setState({ loadingPickImage: false }));
+  };
 
-  handleTakePhoto = () => takePhoto().then(this.props.uploadPhoto);
+  handleTakePhoto = () => {
+    this.setState({ loadingTakeImage: true });
+    takePhoto()
+      .then(this.props.uploadPhoto)
+      .then(() => this.setState({ loadingTakeImage: false }));
+  };
 
   handleAddContact = () =>
     this.props.navigation.navigate('ContactsPicker', { listId: this.props.listId });
 
   render() {
-    const { text, loading } = this.state;
+    const { text, loading, loadingPickImage, loadingTakeImage } = this.state;
     return (
       <View style={styles.wrap}>
         <IconInput
@@ -67,34 +90,25 @@ class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
           <Button title="ADD" onPress={this.onAdd} color="#6a1b9a" />
         )}
         <Text style={styles.or}>OR</Text>
-        <View style={styles.photos}>
-          <TouchableNativeFeedback
-            style={styles.actionWrap}
+        <View style={styles.actions}>
+          <ActionIcon
+            loading={loadingPickImage}
+            text="PICK PHOTO"
+            image={<Entypo name="camera" size={40} color="white" />}
             onPress={this.handlePickPhoto}
-          >
-            <View style={styles.action}>
-              <Entypo name="camera" size={40} color="white" />
-              <Text style={styles.actionText}>PICK PHOTO</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            style={styles.actionWrap}
+          />
+          <ActionIcon
+            loading={loadingTakeImage}
+            text="TAKE PHOTO"
+            image={<Entypo name="images" size={40} color="white" />}
             onPress={this.handleTakePhoto}
-          >
-            <View style={styles.action}>
-              <Entypo name="images" size={40} color="white" />
-              <Text style={styles.actionText}>TAKE PHOTO</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            style={styles.actionWrap}
+          />
+          <ActionIcon
+            loading={false}
+            text="ADD CONTACT"
+            image={<MaterialIcons name="contacts" size={40} color="white" />}
             onPress={this.handleAddContact}
-          >
-            <View style={styles.action}>
-              <MaterialIcons name="contacts" size={40} color="white" />
-              <Text style={styles.actionText}>ADD CONTACT</Text>
-            </View>
-          </TouchableNativeFeedback>
+          />
         </View>
       </View>
     );
@@ -111,15 +125,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10
   },
-  photos: {
+  actions: {
     display: 'flex',
     flexDirection: 'row',
     marginBottom: 60
   },
-  actionWrap: {
-    flex: 1
-  },
   action: {
+    flex: 1,
     backgroundColor: '#9c4dcc',
     padding: 10,
     borderRadius: 2,

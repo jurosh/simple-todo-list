@@ -93,11 +93,11 @@ export default class TodosScreen extends React.Component<IProps, IState> {
     }
   }
 
-  uploadPhoto = (image: ImagePicker.ImageResult) => {
+  uploadPhoto = (image: ImagePicker.ImageResult): Promise<any> => {
     if (image.cancelled) {
-      return;
+      return Promise.reject('cancelled');
     }
-    uploadTodoImage(this.getListId(), (image as any).base64);
+    return uploadTodoImage(this.getListId(), (image as any).base64);
   };
 
   handleDelete = () => {
