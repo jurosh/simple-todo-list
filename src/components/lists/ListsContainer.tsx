@@ -1,13 +1,8 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableNativeFeedback,
-  Text,
-  ActivityIndicator
-} from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { ITodoList } from '../../redux/lists';
+import TouchableFeedback from '../basic/TouchableFeedback';
 
 interface IProps {
   onItemClick: (list: ITodoList) => void;
@@ -27,8 +22,8 @@ const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) =>
           <Text style={styles.empty}>No lists</Text>
         ))}
       {filteredList.map(list => (
-        <TouchableNativeFeedback
-          background={TouchableNativeFeedback.Ripple('#38006b')}
+        <TouchableFeedback
+          backgroundRippleColor="#38006b"
           key={list.id}
           onPress={() => onItemClick(list)}
         >
@@ -36,7 +31,7 @@ const ListsContainer = ({ lists, loading, search = '', onItemClick }: IProps) =>
             <Text style={styles.itemText}>{list.name}</Text>
             <Text style={styles.count}>{list.todosCount}</Text>
           </View>
-        </TouchableNativeFeedback>
+        </TouchableFeedback>
       ))}
     </View>
   );

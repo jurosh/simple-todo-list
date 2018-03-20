@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Image, StyleSheet, View, TouchableNativeFeedback } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import ImagePreview from 'react-native-image-preview';
+import TouchableFeedback from './TouchableFeedback';
 
 interface IProps {
   image: string;
@@ -28,9 +29,9 @@ export default class ImageWithPreview extends React.Component<IProps, IState> {
     const { opened } = this.state;
     return (
       <View style={styles.imageWrap}>
-        <TouchableNativeFeedback onPress={this.onOpen}>
+        <TouchableFeedback onPress={this.onOpen}>
           <Image source={{ uri: image }} style={styles.image} />
-        </TouchableNativeFeedback>
+        </TouchableFeedback>
         <ImagePreview visible={opened} source={{ uri: image }} close={this.onClose} />
       </View>
     );

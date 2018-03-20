@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, View, TouchableNativeFeedback, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import TouchableFeedback from '../basic/TouchableFeedback';
 
 const Contact = ({ name, onSelect }) => (
-  <TouchableNativeFeedback
-    background={TouchableNativeFeedback.Ripple('gray')}
-    onPress={() => onSelect(name)}
-  >
+  <TouchableFeedback backgroundRippleColor="gray" onPress={() => onSelect(name)}>
     <View style={styles.contact}>
       <Text>{name}</Text>
     </View>
-  </TouchableNativeFeedback>
+  </TouchableFeedback>
 );
 
 const styles = StyleSheet.create({

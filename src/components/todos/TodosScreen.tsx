@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  StyleSheet,
-  ActivityIndicator,
-  TouchableNativeFeedback,
-  View
-} from 'react-native';
+import { StyleSheet, ActivityIndicator, View } from 'react-native';
 import {
   queryTodos,
   queryList,
@@ -22,6 +17,7 @@ import TodoEditItem from './TodoEditItem';
 import RenameList from './RenameList';
 import { ImagePicker } from 'expo';
 import { NavigationActions } from 'react-navigation';
+import TouchableFeedback from '../basic/TouchableFeedback';
 
 interface ITodoId extends ITodo {
   id: string;
@@ -150,17 +146,17 @@ export default class TodosScreen extends React.Component<IProps, IState> {
           </View>
         </Layout>
         {editable ? (
-          <TouchableNativeFeedback onPress={this.handleDelete}>
+          <TouchableFeedback onPress={this.handleDelete}>
             <View style={styles.delete}>
               <MaterialIcons name="delete" size={45} color="white" />
             </View>
-          </TouchableNativeFeedback>
+          </TouchableFeedback>
         ) : (
-          <TouchableNativeFeedback onPress={() => shareTodosList(listName, todos)}>
+          <TouchableFeedback onPress={() => shareTodosList(listName, todos)}>
             <View style={styles.share}>
               <Entypo name="share" size={40} color="white" />
             </View>
-          </TouchableNativeFeedback>
+          </TouchableFeedback>
         )}
       </React.Fragment>
     );

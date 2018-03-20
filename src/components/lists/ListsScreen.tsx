@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  TouchableNativeFeedback,
-  KeyboardAvoidingView,
-  View,
-  StyleSheet
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { NavigationInjectedProps } from 'react-navigation';
 import AddList from './AddList';
@@ -15,6 +10,7 @@ import { ITodoList, storeLists } from '../../redux/lists';
 import { connect } from 'react-redux';
 import ListsContainer from './ListsContainer';
 import PopInputInView from './FadeView';
+import TouchableFeedback from '../basic/TouchableFeedback';
 
 interface IProps extends NavigationInjectedProps {
   lists: ITodoList[];
@@ -77,14 +73,14 @@ class ListsScreen extends React.Component<IProps, IState> {
                 <AddList onAdded={this.handleAdded} />
               </PopInputInView>
             ) : (
-              <TouchableNativeFeedback onPress={() => this.setState({ addingNew: true })}>
+              <TouchableFeedback onPress={() => this.setState({ addingNew: true })}>
                 <MaterialIcons
                   name="add-circle"
                   size={55}
                   color="#9c4dcc"
                   style={styles.add}
                 />
-              </TouchableNativeFeedback>
+              </TouchableFeedback>
             )}
           </React.Fragment>
         )}

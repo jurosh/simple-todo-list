@@ -1,8 +1,14 @@
 # Toptal React Academy
 
-App created with https://github.com/mathieudutour/create-react-native-app-typescript
+https://expo.io/@jurosh/simple-todo-list
+
+App primary developed for Android.
+
+Requirements for iOS min 9.0
 
 ## Tech links
+
+App bootstraped using https://github.com/mathieudutour/create-react-native-app-typescript
 
 Compatibility: https://github.com/react-community/create-react-native-app/blob/master/VERSIONS.md
 

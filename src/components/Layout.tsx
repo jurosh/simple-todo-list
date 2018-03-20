@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  TouchableNativeFeedback,
   StyleSheet,
   StatusBar,
   View,
@@ -10,6 +9,7 @@ import {
 } from 'react-native';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import TouchableFeedback from './basic/TouchableFeedback';
 
 interface IPros extends NavigationInjectedProps {
   heading: string;
@@ -37,25 +37,22 @@ const Layout = ({
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.head}>
           {back ? (
-            <TouchableNativeFeedback style={styles.imageClickable} onPress={back}>
+            <TouchableFeedback onPress={back}>
               <MaterialIcons name="arrow-back" size={40} />
-            </TouchableNativeFeedback>
+            </TouchableFeedback>
           ) : (
-            <TouchableNativeFeedback
-              style={styles.imageClickable}
-              onPress={() => navigation.navigate('DrawerOpen')}
-            >
+            <TouchableFeedback onPress={() => navigation.navigate('DrawerOpen')}>
               <Entypo name="menu" size={40} />
-            </TouchableNativeFeedback>
+            </TouchableFeedback>
           )}
           <Text style={styles.heading}>{heading}</Text>
           {onEdit && (
             <View style={styles.editWrap}>
-              <TouchableNativeFeedback onPress={() => onEdit(!edit)}>
+              <TouchableFeedback onPress={() => onEdit(!edit)}>
                 <View style={styles.edit}>
                   <Entypo name={edit ? 'check' : 'edit'} size={25} color="white" />
                 </View>
-              </TouchableNativeFeedback>
+              </TouchableFeedback>
             </View>
           )}
         </View>
@@ -70,10 +67,6 @@ const Layout = ({
 const styles = StyleSheet.create({
   wrap: {
     height: '100%'
-  },
-  imageClickable: {
-    width: 40,
-    height: 40
   },
   topLine: {
     backgroundColor: '#c9bc1f',

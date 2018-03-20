@@ -1,18 +1,11 @@
 import * as React from 'react';
-import {
-  Button,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableNativeFeedback,
-  View,
-  Alert,
-  Text
-} from 'react-native';
+import { Button, StyleSheet, ActivityIndicator, View, Alert, Text } from 'react-native';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import { takePhoto, pickExistingPhoto } from '../../api/camera';
 import { addTodo } from '../../api/lists';
 import IconInput from '../basic/IconInput';
+import TouchableFeedback from '../basic/TouchableFeedback';
 
 interface IProps {
   uploadPhoto: (photo: any) => Promise<void>;
@@ -27,7 +20,7 @@ interface IState {
 }
 
 const ActionIcon = ({ loading, text, image, onPress }) => (
-  <TouchableNativeFeedback onPress={onPress} disabled={loading}>
+  <TouchableFeedback onPress={onPress} disabled={loading}>
     <View style={styles.action}>
       {image}
       {loading ? (
@@ -36,7 +29,7 @@ const ActionIcon = ({ loading, text, image, onPress }) => (
         <Text style={styles.actionText}>{text}</Text>
       )}
     </View>
-  </TouchableNativeFeedback>
+  </TouchableFeedback>
 );
 
 class AddTodo extends React.Component<IProps & NavigationInjectedProps> {
