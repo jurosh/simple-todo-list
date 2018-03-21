@@ -2,8 +2,13 @@ import * as React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import TouchableFeedback from '../basic/TouchableFeedback';
 
-const Contact = ({ name, onSelect }) => (
-  <TouchableFeedback backgroundRippleColor="gray" onPress={() => onSelect(name)}>
+interface IProps {
+  name: string;
+  onSelect: () => void;
+}
+
+const Contact = ({ name, onSelect }: IProps) => (
+  <TouchableFeedback backgroundRippleColor="gray" onPress={onSelect}>
     <View style={styles.contact}>
       <Text>{name}</Text>
     </View>

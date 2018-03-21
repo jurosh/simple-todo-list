@@ -6,11 +6,6 @@ import {
   TouchableNativeFeedbackProperties
 } from 'react-native';
 
-// const TouchableFeedbackByPlatform = Platform.select({
-//   ios: () => TouchableHighlight,
-//   android: () => TouchableNativeFeedback as any
-// })();
-
 const TouchableFeedbackByPlatform = Platform.select({
   ios: TouchableHighlight as any,
   android: TouchableNativeFeedback

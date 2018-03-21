@@ -6,7 +6,7 @@ export const getContact = async id => {
     return;
   }
   return await Expo.Contacts.getContactByIdAsync({
-    fields: [Expo.Contacts.PHONE_NUMBERS, Expo.Contacts.EMAILS],
+    fields: [Expo.Contacts.PHONE_NUMBERS, Expo.Contacts.EMAILS, Expo.Contacts.THUMBNAIL],
     id
   });
 };
@@ -15,7 +15,7 @@ const PAGE_SIZE = 15;
 
 const getContactsPart = pageOffset => {
   return Expo.Contacts.getContactsAsync({
-    fields: [], // Expo.Contacts.EMAILS], // Expo.Contacts.PHONE_NUMBERS, Expo.Contacts.THUMBNAIL],
+    fields: [Expo.Contacts.PHONE_NUMBERS, Expo.Contacts.EMAILS, Expo.Contacts.THUMBNAIL],
     pageSize: PAGE_SIZE,
     pageOffset
   });

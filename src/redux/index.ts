@@ -3,9 +3,14 @@ import { createStore, combineReducers } from 'redux';
 import contacts from './contacts';
 import lists from './lists';
 
-export const store = createStore(
-  combineReducers({
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = undefined;
+  }
+  return combineReducers({
     contacts,
     lists
-  })
-);
+  })(state, action);
+};
+
+export const store = createStore(rootReducer);

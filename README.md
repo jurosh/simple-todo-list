@@ -6,6 +6,8 @@ App primary developed for Android.
 
 Requirements for iOS min 9.0
 
+https://forums.expo.io/t/modules-available-in-snack/1651
+
 ## Tech links
 
 App bootstraped using https://github.com/mathieudutour/create-react-native-app-typescript

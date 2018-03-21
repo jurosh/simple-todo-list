@@ -19,7 +19,14 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
     "globals": {
       "ts-jest": {
         "useBabelrc": true
@@ -30,12 +37,13 @@
     "expo": "^25.0.0",
     "firebase": "^4.6.2",
     "react": "^16.2.0",
-    "react-native": "0.52.0",
+    "react-native": "^0.52.0",
     "react-native-check-box": "^2.1.0",
     "react-native-image-preview": "^0.3.1",
     "react-navigation": "^1.5.7",
     "react-redux": "^5.0.7",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@types/expo": "^25.0.2",
@@ -52,7 +60,6 @@
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.2.0",
     "ts-jest": "^22.4.2",
-    "tslib": "^1.7.1",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.10.0",
     "tslint-react": "^3.5.1",

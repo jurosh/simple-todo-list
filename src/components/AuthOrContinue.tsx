@@ -1,9 +1,10 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import LoginScreen from './login/LoginScreen';
 import Router from './Router';
 import { initializeAndWaitForAuth } from '../api';
 
-export default class LoginOrContinue extends React.Component {
+class LoginOrContinue extends React.Component<{ onLogout }> {
   state = {
     initialized: false,
     logged: false
@@ -15,6 +16,7 @@ export default class LoginOrContinue extends React.Component {
 
   onLogout = () => {
     this.setState({ logged: false });
+    this.props.onLogout();
   };
 
   onReady = () => {
@@ -32,3 +34,11 @@ export default class LoginOrContinue extends React.Component {
     return this.state.logged ? <Router /> : <LoginScreen />;
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  onLogout() {
+    dispatch({ type: 'LOGOUT' });
+  }
+});
+
+export default connect(undefined, mapDispatchToProps)(LoginOrContinue);

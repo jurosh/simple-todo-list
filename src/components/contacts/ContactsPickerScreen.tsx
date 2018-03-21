@@ -9,7 +9,7 @@ import { addContacts, startAddContacts, IContact } from '../../redux/contacts';
 import { addTodoContact } from '../../api/lists';
 import Contact from './Contact';
 
-interface IProps {
+interface IProps extends NavigationInjectedProps {
   list: IContact[];
   loading: boolean;
   total: number;
@@ -23,10 +23,7 @@ interface IState {
 
 const DISPLAYED_COUNT = 40;
 
-class ContactsPickerScreen extends React.Component<
-  IProps & NavigationInjectedProps,
-  IState
-> {
+class ContactsPickerScreen extends React.Component<IProps, IState> {
   state: IState = {
     search: ''
   };
@@ -40,9 +37,9 @@ class ContactsPickerScreen extends React.Component<
       this.props.list.length < this.props.total
     ) {
       this.props.onStartFetch();
-      getAllContacts((data, hasNext, total) => {
-        this.props.onFetched(data, hasNext, total);
-      });
+      getAllContacts((data, hasNext, total) =>
+        this.props.onFetched(data, hasNext, total)
+      );
     }
   }
 
@@ -50,9 +47,16 @@ class ContactsPickerScreen extends React.Component<
     // We might stop loading contacts...
   }
 
-  onSelect = (name: string) => {
+  onSelect = contact => {
     const params = (this.props.navigation.state as any).params;
-    addTodoContact(params.listId, { name });
+    console.log(contact);
+    addTodoContact(params.listId, {
+      id: contact.id,
+      name: contact.name || contact.firstName,
+      email: contact.emails ? contact.emails[0].email : '',
+      phone: contact.phoneNumbers ? contact.phoneNumbers[0].number : '',
+      image: contact.thumbnail ? contact.thumbnail.uri : null
+    });
     this.props.navigation.navigate('Todos', { listId: params.listId });
   };
 
@@ -88,7 +92,10 @@ class ContactsPickerScreen extends React.Component<
         {filteredList
           .slice(0, DISPLAYED_COUNT)
           .map(contact => (
-            <Contact name={contact.name || contact.firstName} onSelect={this.onSelect} />
+            <Contact
+              name={contact.name || contact.firstName}
+              onSelect={() => this.onSelect(contact)}
+            />
           ))}
         {nonDisplayedCount > 0 && (
           <Text style={styles.more}>And {nonDisplayedCount} more...</Text>

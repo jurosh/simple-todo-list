@@ -24,7 +24,15 @@ export default class TodoItem extends React.Component<IProps> {
       <View style={styles.item}>
         <Checkbox checked={!!todo.check} onClick={this.onClick} rightText={todo.text} />
         {todo.image && <ImageWithPreview image={todo.image} />}
-        {todo.contactName && <Contact name={todo.contactName} />}
+        {todo.contact && (
+          <Contact
+            id={todo.contact.id}
+            name={todo.contact.name}
+            image={todo.contact.image}
+            email={todo.contact.email}
+            phone={todo.contact.phone}
+          />
+        )}
       </View>
     );
   }
