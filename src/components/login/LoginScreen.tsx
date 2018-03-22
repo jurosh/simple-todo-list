@@ -3,15 +3,13 @@ import {
   View,
   TextInput,
   Text,
-  KeyboardAvoidingView,
   Button,
   ActivityIndicator,
-  StatusBar,
   Image,
-  ScrollView,
   StyleSheet,
   Alert
 } from 'react-native';
+import LoginLayout from './LoginLayout';
 import { login, register } from '../../api';
 import profileImage from './images/todos.png';
 
@@ -22,7 +20,7 @@ interface IState {
 }
 
 class LoginScreen extends React.Component<{}, IState> {
-  state = {
+  state: IState = {
     email: '',
     password: '',
     loading: false
@@ -43,63 +41,44 @@ class LoginScreen extends React.Component<{}, IState> {
   render() {
     const { email, password, loading } = this.state;
     return (
-      <ScrollView
-        style={styles.scroll}
-        overScrollMode="always"
-        keyboardShouldPersistTaps="always"
-      >
-        <KeyboardAvoidingView behavior="padding">
-          <View style={styles.topLine} />
-          <View style={styles.wrap}>
-            <Image source={profileImage} />
-            <View style={styles.content}>
-              <Text style={styles.label}>Email</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={text => this.setState({ email: text })}
-                value={email}
-              />
+      <LoginLayout>
+        <Image source={profileImage} />
+        <View style={styles.content}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={text => this.setState({ email: text })}
+            value={email}
+          />
 
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                secureTextEntry={true}
-                onChangeText={text => this.setState({ password: text })}
-                value={password}
-              />
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            onChangeText={text => this.setState({ password: text })}
+            value={password}
+          />
 
-              <View style={styles.buttonWrap}>
-                {loading ? (
-                  <ActivityIndicator size="large" color="#9c4dcc" />
-                ) : (
-                  <React.Fragment>
-                    <Button title="Login" onPress={this.login} color="#6a1b9a" />
-                    <View style={styles.registerWrap}>
-                      <Text>OR</Text>
-                      <Button color="#9c4dcc" title="Register" onPress={this.register} />
-                    </View>
-                  </React.Fragment>
-                )}
-              </View>
-            </View>
+          <View style={styles.buttonWrap}>
+            {loading ? (
+              <ActivityIndicator size="large" color="#9c4dcc" />
+            ) : (
+              <React.Fragment>
+                <Button title="Login" onPress={this.login} color="#6a1b9a" />
+                <View style={styles.registerWrap}>
+                  <Text>OR</Text>
+                  <Button color="#9c4dcc" title="Register" onPress={this.register} />
+                </View>
+              </React.Fragment>
+            )}
           </View>
-        </KeyboardAvoidingView>
-      </ScrollView>
+        </View>
+      </LoginLayout>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  scroll: {
-    backgroundColor: '#FFFFE0'
-  },
-  topLine: {
-    backgroundColor: '#c9bc1f',
-    height: StatusBar.currentHeight
-  },
-  wrap: {
-    alignItems: 'center'
-  },
   content: {
     padding: 30,
     width: '80%'

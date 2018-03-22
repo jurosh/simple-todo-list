@@ -5,6 +5,13 @@ admin.initializeApp(functions.config().firebase);
 const firestore = admin.firestore();
 
 // https://firebase.google.com/docs/functions/typescript
+
+exports.sendVerifyEmail = functions.auth.user().onCreate(event => {
+  if (event.data.emailVerified) {
+    // Send verification email, probably not possibly on backend
+  }
+});
+
 export const helloWorld = functions.https.onRequest((request, response) => {
   response.send('Hello from Firebase!');
 });

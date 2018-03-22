@@ -11,6 +11,8 @@ const config = {
   // messagingSenderId: '1081381779848'
 };
 
+let globalNewlyRegisteredMail = false;
+let globalNewlyRegistered: { email: string; password: string } | null = null;
 let globalFirestoreDb: firebase.firestore.Firestore | null = null;
 let globalOnLogout = () => console.error('[Api] logout, but missing callback');
 let globalCredential: firebase.UserInfo | null = null;
@@ -47,7 +49,37 @@ export const logout = (): Promise<void> =>
     });
 
 export const register = (email: string, password: string): Promise<void> =>
-  firebase.auth().createUserWithEmailAndPassword(email, password);
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      globalNewlyRegisteredMail = true;
+      globalNewlyRegistered = { email, password };
+    });
+
+export const sendVerificationEmail = () => {
+  const { currentUser } = firebase.auth();
+  if (currentUser) {
+    return currentUser.sendEmailVerification().then(() => {
+      console.log('Verification mail sent');
+    });
+  }
+  return Promise.reject('User not logged');
+};
+
+// Firebase bug https://github.com/invertase/react-native-firebase/issues/20
+export const refreshRegisteredUser = () =>
+  logout().then(() => {
+    if (globalNewlyRegistered) {
+      return login(globalNewlyRegistered.email, globalNewlyRegistered.password).then(
+        () => {
+          // Forget cached credentials forever
+          globalNewlyRegistered = null;
+        }
+      );
+    }
+    return Promise.reject('no registered user credentials');
+  });
 
 // There's currently an issue in react-native that prevents Firestore from workingproperly on Android.
 // See https://github.com/firebase/firebase-js-sdk/issues/283 and https://github.com/facebook/react-native/pull/17449.
@@ -62,7 +94,7 @@ XMLHttpRequest.prototype.send = function(body) {
 };
 
 export const initializeAndWaitForAuth = (
-  onLogin: () => void,
+  onLogin: (emailVerified: boolean) => void,
   onLogout: () => void,
   onReady: () => void
 ): void => {
@@ -76,9 +108,14 @@ export const initializeAndWaitForAuth = (
   // Listen for authentication state to change.
   firebase.auth().onAuthStateChanged(user => {
     if (user != null) {
-      console.log('[Firebase] We are authenticated now!');
+      const { emailVerified } = user;
+      console.log('[Firebase] We are authenticated now!', emailVerified);
       globalCredential = user;
-      onLogin();
+      onLogin(emailVerified);
+      if (globalNewlyRegisteredMail) {
+        sendVerificationEmail();
+        globalNewlyRegisteredMail = false;
+      }
     } else {
       console.log('We are not auth');
     }

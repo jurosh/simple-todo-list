@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import LoginScreen from './login/LoginScreen';
+import NonVerifiedUser from './login/NonVerifiedUser';
 import Router from './Router';
 import { initializeAndWaitForAuth } from '../api';
 
 class LoginOrContinue extends React.Component<{ onLogout }> {
   state = {
     initialized: false,
-    logged: false
+    logged: false,
+    emailVerified: false
   };
 
-  onLogin = () => {
-    this.setState({ logged: true });
+  onLogin = emailVerified => {
+    this.setState({ logged: true, emailVerified });
   };
 
   onLogout = () => {
@@ -31,7 +33,13 @@ class LoginOrContinue extends React.Component<{ onLogout }> {
     if (!this.state.initialized) {
       return null;
     }
-    return this.state.logged ? <Router /> : <LoginScreen />;
+    if (!this.state.logged) {
+      return <LoginScreen />;
+    }
+    if (!this.state.emailVerified) {
+      return <NonVerifiedUser />;
+    }
+    return <Router />;
   }
 }
 
