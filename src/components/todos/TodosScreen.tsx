@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, ActivityIndicator, View } from 'react-native';
+import { NavigationInjectedProps } from 'react-navigation';
 import {
   queryTodos,
   queryList,
@@ -16,7 +17,7 @@ import TodoItem from './TodoItem';
 import TodoEditItem from './TodoEditItem';
 import RenameList from './RenameList';
 import { ImagePicker } from 'expo';
-import { NavigationActions } from 'react-navigation';
+import { navigateAndReset } from '../../utils/navigation';
 import TouchableFeedback from '../basic/TouchableFeedback';
 
 interface ITodoId extends ITodo {
@@ -106,12 +107,7 @@ export default class TodosScreen extends React.Component<IProps, IState> {
       this.unsubscribeList();
     }
     removeList(this.getListId());
-    this.props.navigation.dispatch(
-      NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Lists' })]
-      })
-    );
+    navigateAndReset(this.props.navigation as any, 'Lists');
   };
 
   render() {

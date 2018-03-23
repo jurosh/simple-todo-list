@@ -7,6 +7,7 @@ import IconInput from '../basic/IconInput';
 import { getAllContacts } from '../../api/contacts';
 import { addContacts, startAddContacts, IContact } from '../../redux/contacts';
 import { addTodoContact } from '../../api/lists';
+import { navigateAndReset } from '../../utils/navigation';
 import Contact from './Contact';
 
 interface IProps extends NavigationInjectedProps {
@@ -57,7 +58,7 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
       phone: contact.phoneNumbers ? contact.phoneNumbers[0].number : '',
       image: contact.thumbnail ? contact.thumbnail.uri : null
     });
-    this.props.navigation.navigate('Todos', { listId: params.listId });
+    navigateAndReset(this.props.navigation, 'Todos', { listId: params.listId });
   };
 
   render() {
@@ -67,7 +68,7 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
     const filteredList = list.filter(
       contact => contact && contact.name && contact.name.includes(lowercaseSearch)
     );
-    const nonDisplayedCount =
+    const hiddenCount =
       filteredList.length > DISPLAYED_COUNT
         ? filteredList.length + 1 - DISPLAYED_COUNT
         : 0;
@@ -97,9 +98,7 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
               onSelect={() => this.onSelect(contact)}
             />
           ))}
-        {nonDisplayedCount > 0 && (
-          <Text style={styles.more}>And {nonDisplayedCount} more...</Text>
-        )}
+        {hiddenCount > 0 && <Text style={styles.more}>And {hiddenCount} more...</Text>}
       </Layout>
     );
   }

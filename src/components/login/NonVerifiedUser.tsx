@@ -18,9 +18,9 @@ class NonVerifiedUser extends React.Component<{}, IState> {
 
   checkAgain = () => {
     this.setState({ checking: true });
-    refreshRegisteredUser().then(() => {
-      this.setState({ checking: false });
-    });
+    refreshRegisteredUser()
+      .then(() => this.setState({ checking: false }))
+      .catch(() => () => this.setState({ checking: false }));
   };
 
   resendEmail = () => {
