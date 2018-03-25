@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { StyleSheet, ActivityIndicator, View } from 'react-native';
-import { NavigationInjectedProps } from 'react-navigation';
 import {
   queryTodos,
   queryList,

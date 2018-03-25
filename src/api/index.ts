@@ -81,18 +81,6 @@ export const refreshRegisteredUser = () =>
     return Promise.reject('no registered user credentials');
   });
 
-// There's currently an issue in react-native that prevents Firestore from workingproperly on Android.
-// See https://github.com/firebase/firebase-js-sdk/issues/283 and https://github.com/facebook/react-native/pull/17449.
-// As a workaround for now, you can probably add this code (before you initialize firebase) to work around the bug:
-const originalSend = XMLHttpRequest.prototype.send;
-XMLHttpRequest.prototype.send = function(body) {
-  if (body === '') {
-    originalSend.call(this);
-  } else {
-    originalSend.call(this, body);
-  }
-};
-
 export const initializeAndWaitForAuth = (
   onLogin: (emailVerified: boolean) => void,
   onLogout: () => void,
