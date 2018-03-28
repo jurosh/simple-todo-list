@@ -48,7 +48,14 @@ export default class TodoEditItem extends React.Component<IProps, IState> {
           )}
         </View>
         {todo.image && <ImageWithPreview image={todo.image} />}
-        {todo.contactName && <Contact name={todo.contactName} />}
+        {todo.contact && (
+          <Contact
+            name={todo.contact.name}
+            email={todo.contact.email}
+            phone={todo.contact.phone}
+            image={todo.contact.image}
+          />
+        )}
       </View>
     );
   }
@@ -63,6 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   input: {
-    flex: 1
+    flex: 1,
+    padding: 5
   }
 });

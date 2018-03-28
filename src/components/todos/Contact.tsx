@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import TouchableFeedback from '../basic/TouchableFeedback';
-import { getContact } from '../../api/contacts';
+// import { getContact } from '../../api/contacts';
 
 interface IState {
   opened: boolean;
 }
 
-class Contact extends React.Component<{ id; name; email; phone; image }, IState> {
+class Contact extends React.Component<{ name; email; phone; image }, IState> {
   state: IState = {
     opened: false
   };

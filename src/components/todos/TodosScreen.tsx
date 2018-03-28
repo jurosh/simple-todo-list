@@ -116,7 +116,7 @@ export default class TodosScreen extends React.Component<IProps, IState> {
       <React.Fragment>
         <Layout
           heading={listName}
-          back={() => this.props.navigation.goBack()}
+          back={() => navigateAndReset(this.props.navigation as any, 'Lists')}
           edit={editable}
           onEdit={edit => this.setState({ editable: edit })}
           afterContent={() => <AddTodo listId={listId} uploadPhoto={this.uploadPhoto} />}

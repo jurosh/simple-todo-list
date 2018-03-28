@@ -26,7 +26,6 @@ export default class TodoItem extends React.Component<IProps> {
         {todo.image && <ImageWithPreview image={todo.image} />}
         {todo.contact && (
           <Contact
-            id={todo.contact.id}
             name={todo.contact.name}
             image={todo.contact.image}
             email={todo.contact.email}

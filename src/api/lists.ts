@@ -55,16 +55,18 @@ export interface IList {
   count: number;
 }
 
+export interface IContact {
+  id: string;
+  name: string;
+  phone?: string;
+  email?: string;
+  image?: string | null;
+}
+
 export interface ITodo {
   text: string;
   image?: string;
-  contact?: {
-    id: string;
-    name: string;
-    phone?: string;
-    email?: string;
-    image?: string | null;
-  };
+  contact?: IContact;
   check?: boolean;
 }
 
@@ -112,10 +114,7 @@ export const uploadTodoImage = async (listId, base64: string) => {
   });
 };
 
-export const addTodoContact = async (
-  listId,
-  contact: { id: string; name: string; phone: string; email: string; image: string }
-) => {
+export const addTodoContact = async (listId, contact: IContact) => {
   return addTodo(listId, {
     text: 'Contact',
     contact: {

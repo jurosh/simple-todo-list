@@ -1,14 +1,26 @@
-# Toptal React Academy
+# Todos (RN Toptal Academy App)
 
-https://expo.io/@jurosh/simple-todo-list
+Final app https://expo.io/@jurosh/simple-todo-list
 
-App primary developed for Android.
+App primary developed for Android. IOS version isn't optimized but should be functional.
 
-Requirements for iOS min 9.0
+## Instructions
 
-https://forums.expo.io/t/modules-available-in-snack/1651
+Install npm dependencies
 
-## Tech links
+```
+npm install
+```
+
+Start local packager (Update REACT_NATIVE_PACKAGER_HOSTNAME address if required, in package.json)
+
+```
+npm start
+```
+
+Open expo client on device and scan QR code. To start in emulator hit key `a`.
+
+## Tech Links
 
 App bootstraped using https://github.com/mathieudutour/create-react-native-app-typescript
 
@@ -24,7 +36,7 @@ Uploading image: https://forums.expo.io/t/expo-and-uploading-image-blobs/227/20
 
 CheckBox: https://github.com/crazycodeboy/react-native-check-box
 
-Keyboard: https://facebook.github.io/react-native/docs/keyboardavoidingview.html
+Keyboard Avoid View: https://facebook.github.io/react-native/docs/keyboardavoidingview.html
 
 Icons: https://expo.github.io/vector-icons/
 
@@ -36,13 +48,14 @@ Animations: https://facebook.github.io/react-native/docs/animations.html
 
 ## Firebase Rest API
 
-Auth
+Firestore Project: https://console.firebase.google.com/u/0/project/toptalreactnativeacademy/database/firestore/
 
-https://firebase.google.com/docs/reference/rest/auth/
+Authentication Docs
 
-https://firebase.google.com/docs/database/rest/auth
+* https://firebase.google.com/docs/reference/rest/auth/
+* https://firebase.google.com/docs/database/rest/auth
 
-# OFFICIAL REQUIREMENTS
+## Requirements
 
 Thank you for signing up for the final project of the React Native Academy.
 
@@ -64,7 +77,3 @@ Here is the project description.
 * Lists should be shareable thought the Share interface.
 * REST API. Make it possible to perform all user actions via the API, including authentication. If you do not know how to create your own backend you can use Firebase.com or similar services to create the API.
 * Minimal UI/UX design is needed. You will not be marked by graphic design. However, do try to keep it as tidy as possible.
-
-You will need to create a Github or Bitbucket repository for your project, and send us the link before the end of the testing period. We will email again and/or post in #react-native-academy on Slack towards the end of the testing period on where to submit your repositories. After the deadline, we will check all the repositories and then send the invitation to schedule an interview with one of the screeners to all candidates that have non-empty repositories.
-
-Good luck!

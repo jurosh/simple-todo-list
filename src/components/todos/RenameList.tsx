@@ -20,7 +20,7 @@ interface IState {
   loading: boolean;
 }
 
-class RenameList extends React.Component<IProps> {
+class RenameList extends React.Component<IProps, IState> {
   state: IState = {
     text: this.props.listName,
     loading: false
@@ -45,7 +45,7 @@ class RenameList extends React.Component<IProps> {
     return (
       <View style={styles.wrap}>
         <Text style={styles.text}>Rename listing ?</Text>
-        <TextInput value={text} onChangeText={this.onChangeText} />
+        <TextInput value={text} onChangeText={this.onChangeText} style={styles.input} />
         {loading ? (
           <ActivityIndicator size="large" color="#9c4dcc" />
         ) : (
@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 10,
     textAlign: 'center'
+  },
+  input: {
+    padding: 10
   }
 });
 

@@ -94,6 +94,7 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
           .slice(0, DISPLAYED_COUNT)
           .map(contact => (
             <Contact
+              key={contact.id || contact.name}
               name={contact.name || contact.firstName}
               onSelect={() => this.onSelect(contact)}
             />
