@@ -58,7 +58,16 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
       phone: contact.phoneNumbers ? contact.phoneNumbers[0].number : '',
       image: contact.thumbnail ? contact.thumbnail.uri : null
     });
-    navigateAndReset(this.props.navigation, 'Todos', { listId: params.listId });
+    navigateAndReset(
+      this.props.navigation,
+      ['Lists', 'Todos'],
+      [
+        {},
+        {
+          listId: params.listId
+        }
+      ]
+    );
   };
 
   render() {
