@@ -20,6 +20,13 @@ npm start
 
 Open expo client on device and scan QR code. To start in emulator hit key `a`.
 
+### Publish
+
+```
+npm install -g exp
+exp publish
+```
+
 ## Tech Links
 
 App bootstraped using https://github.com/mathieudutour/create-react-native-app-typescript
