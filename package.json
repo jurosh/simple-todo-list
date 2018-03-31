@@ -5,10 +5,10 @@
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
   "scripts": {
     "startc": "npm start -- --reset-cache",
-    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.50' react-native-scripts-ts start",
+    "start": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.16' react-native-scripts-ts start",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "eject": "react-native-scripts-ts eject",
-    "android": "cross-env REACT_NATIVE_PACKAGER_HOSTNAME='192.168.1.51' react-native-scripts-ts android",
+    "android": "react-native-scripts-ts android",
     "ios": "react-native-scripts-ts ios",
     "test": "node node_modules/jest/bin/jest.js"
   },
@@ -34,10 +34,10 @@
     }
   },
   "dependencies": {
-    "expo": "^25.0.0",
+    "expo": "^26.0.0",
     "firebase": "^4.6.2",
-    "react": "^16.2.0",
-    "react-native": "^0.52.0",
+    "react": "16.3.0-alpha.1",
+    "react-native": "^0.54.4",
     "react-native-check-box": "^2.1.0",
     "react-native-image-preview": "^0.3.1",
     "react-navigation": "^1.5.8",
@@ -54,7 +54,7 @@
     "@types/react-navigation": "^1.2.3",
     "@types/react-test-renderer": "^16.0.1",
     "cross-env": "^5.1.4",
-    "jest-expo": "^25.1.0",
+    "jest-expo": "^26.0.0",
     "prettier": "^1.11.1",
     "react-native-scripts-ts": "^1.11.4",
     "react-native-typescript-transformer": "^1.2.3",

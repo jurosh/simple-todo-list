@@ -15,7 +15,7 @@ const PAGE_SIZE = 15;
 
 const getContactsPart = pageOffset => {
   return Expo.Contacts.getContactsAsync({
-    fields: [Expo.Contacts.PHONE_NUMBERS, Expo.Contacts.EMAILS, Expo.Contacts.THUMBNAIL],
+    fields: [],
     pageSize: PAGE_SIZE,
     pageOffset
   });

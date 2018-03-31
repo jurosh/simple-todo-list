@@ -4,7 +4,7 @@ import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { connect } from 'react-redux';
 import Layout from '../Layout';
 import IconInput from '../basic/IconInput';
-import { getAllContacts } from '../../api/contacts';
+import { getAllContacts, getContact } from '../../api/contacts';
 import { addContacts, startAddContacts, IContact } from '../../redux/contacts';
 import { addTodoContact } from '../../api/lists';
 import { navigateAndReset } from '../../utils/navigation';
@@ -48,9 +48,9 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
     // We might stop loading contacts...
   }
 
-  onSelect = contact => {
+  onSelect = async contactId => {
     const params = (this.props.navigation.state as any).params;
-    console.log(contact);
+    const contact = await getContact(contactId);
     addTodoContact(params.listId, {
       id: contact.id,
       name: contact.name || contact.firstName,
@@ -105,7 +105,7 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
             <Contact
               key={contact.id || contact.name}
               name={contact.name || contact.firstName}
-              onSelect={() => this.onSelect(contact)}
+              onSelect={() => this.onSelect(contact.id)}
             />
           ))}
         {hiddenCount > 0 && <Text style={styles.more}>And {hiddenCount} more...</Text>}
