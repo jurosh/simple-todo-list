@@ -12,14 +12,20 @@ it('todosShare:renderTodoList', () => {
       },
       {
         text: 'CONTACT',
-        contactName: 'CONTACT_NAME'
+        contact: {
+          id: 'ID',
+          email: 'EMAIL',
+          name: 'NAME',
+          phone: 'PHONE',
+          image: 'IMAGE'
+        }
       }
     ])
   ).toEqual(`Todos "LIST_NAME"
 
 * TODO_TEXT
 * IMAGE_NAME (IMAGE_LINK)
-* CONTACT (@CONTACT_NAME)
+* CONTACT (@NAME, PHONE, EMAIL)
 `);
 });
 
