@@ -51,9 +51,12 @@ class ContactsPickerScreen extends React.Component<IProps, IState> {
   onSelect = async contactId => {
     const params = (this.props.navigation.state as any).params;
     const contact = await getContact(contactId);
+    if (!contact) {
+      return;
+    }
     addTodoContact(params.listId, {
       id: contact.id,
-      name: contact.name || contact.firstName,
+      name: contact.name || contact.firstName || '',
       email: contact.emails ? contact.emails[0].email : '',
       phone: contact.phoneNumbers ? contact.phoneNumbers[0].number : '',
       image: contact.thumbnail ? contact.thumbnail.uri : null
